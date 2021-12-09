@@ -1,21 +1,20 @@
 import Page from '../../core/templates/page'
 
-class MainPage extends Page {
 
+class GamePage extends Page{
   static TextObject = {
-    MainTitle: 'Main Page',
+    MainTitle: 'Game Page',
   };
 
   constructor(id:string) {
     super(id);
   }
 
-
   render() {
-    const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
+    const title = this.createHeaderTitle(GamePage.TextObject.MainTitle);
     this.container.append(title);
     return this.container;
   }
 }
 
-export default MainPage;
+export default GamePage;
