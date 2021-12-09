@@ -3,6 +3,8 @@ import SettingsPage from "../settings/settings";
 import GamePage from "../game/game";
 import Page from "../../core/templates/page";
 import Header from '../../core/components/header';
+import Main from '../../core/components/main';
+import Footer from '../../core/components/footer';
 
 
 
@@ -16,6 +18,8 @@ class App {
   private static container: HTMLElement = document.body;
   private static defaultPageId = 'current-page';
   private header: Header;
+  private main: Main;
+  private footer: Footer;
 
   static renderNewPage(idPage: string) {
     const currentPageHTML = document.querySelector(`#${App.defaultPageId}`);
@@ -48,10 +52,14 @@ class App {
 
   constructor() {
     this.header = new Header('header', 'header-container');
+    this.main = new Main ('main', 'main-container');
+    this.footer = new Main ('footer', 'footer-container');
   }
 
   run() {
     App.container.append(this.header.render());
+    App.container.append(this.main.render());
+    App.container.append(this.footer.render());
     App.renderNewPage('main-page');
     this.enableRouteChange();
   }

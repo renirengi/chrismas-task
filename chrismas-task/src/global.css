@@ -2,3 +2,12 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+.hidden {
+  opacity: 0;
+  transition: opacity 0.5s ease-out, width 0.5s ease 0.5s, height 0.5s ease 0.5s;
+}
+
+.active.hidden {
+  opacity: 1;
+}
