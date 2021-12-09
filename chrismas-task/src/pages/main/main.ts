@@ -2,9 +2,9 @@ import Page from '../../core/templates/page'
 
 class MainPage extends Page {
 
-  static TextObject = {
+  /*static TextObject = {
     MainTitle: 'Main Page',
-  };
+  };*/
 
   constructor(id:string) {
     super(id);
@@ -12,8 +12,8 @@ class MainPage extends Page {
 
 
   render() {
-    const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
-    this.container.append(title);
+    //const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
+    //this.container.append(title);
     return this.container;
   }
 }
