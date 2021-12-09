@@ -7,8 +7,9 @@ abstract class Component {
   }
 
   render() {
-    return this.container;
+   return this.container;
   }
+
 }
 
 export default Component;
