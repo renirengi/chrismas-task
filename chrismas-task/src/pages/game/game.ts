@@ -1,4 +1,5 @@
-import Page from '../../core/templates/page'
+import Page from '../../core/templates/page';
+import { changeVisibility } from '../../utils'
 
 
 class GamePage extends Page{
@@ -11,23 +12,14 @@ class GamePage extends Page{
   }
 
   render() {
-    this.changeVisibility();
+    changeVisibility('Game Page');
     //const title = this.createHeaderTitle(GamePage.TextObject.MainTitle);
     //this.container.append(title);
     return this.container;
   }
 
-  changeVisibility(){
-    const buttonElement = document.querySelectorAll('.active');
-    buttonElement.forEach((element) => {
-      if(element.textContent==='Game Page'){
-        element.style.display = 'none';
-      }
-      else{
-        element.style.display = 'block';
-      }
-    })
+
 }
-}
+
 
 export default GamePage;

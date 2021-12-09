@@ -1,4 +1,5 @@
 import Page from '../../core/templates/page'
+import { changeVisibility } from '../../utils'
 
 
 class SettingsPage extends Page{
@@ -11,23 +12,27 @@ class SettingsPage extends Page{
   }
 
   render() {
-    this.changeVisibility();
+    changeVisibility('Settings Page');
+    this.makeContainer();
+    //this.clearContainer();
     //const title = this.createHeaderTitle(SettingsPage.TextObject.MainTitle);
     //this.container.append(title);
     return this.container;
   }
 
-  changeVisibility(){
-    const buttonElement = document.querySelectorAll('.active');
-    buttonElement.forEach((element) => {
-      if(element.textContent==='Settings Page'){
-        element.style.display = 'none';
-      }
-      else{
-        element.style.display = 'block';
-      }
-    })
+  makeContainer(){
+    const сontainer:HTMLElement=document.createElement('div');
+    сontainer.classList.add('content-container');
+    (document.querySelector('.main-container') as HTMLElement).append(сontainer);
+    сontainer.append(this.makeAllContainer());
   }
+
+  makeAllContainer() {
+    const toysContainer:HTMLElement= document.createElement('div');
+    toysContainer.classList.add('toys-container');
+    return toysContainer;
+  }
+
 
 }
 

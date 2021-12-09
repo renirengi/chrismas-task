@@ -2,7 +2,7 @@ abstract class Page {
   protected container: HTMLElement;
   //static TextObject = {};
 
-  constructor(id: string) {
+  constructor(id:string) {
     this.container = document.createElement('div');
     this.container.id = id;
   }
@@ -16,6 +16,12 @@ abstract class Page {
 
   render() {
     return this.container;
+  }
+
+  clearContainer(){
+    console.log(document.querySelector('.content-container'));
+    (document.querySelector('.content-container') as HTMLElement).remove;
+
   }
 }
 
