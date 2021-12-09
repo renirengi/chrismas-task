@@ -1,1 +1,5 @@
-console.log("I love cats")
+ import App from "./pages/app/app";
+
+ const app = new App();
+ app.run();
+
