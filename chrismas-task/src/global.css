@@ -16,7 +16,7 @@ main{
 
 .content-container{
  display:flex;
- height: 4000px;
+ height: 5000px;
  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg");
 }
 
@@ -26,6 +26,21 @@ main{
   width: 70%;
   justify-content: space-between;
   overflow: hidden;
+}
+
+.toys-container img {
+  display: block;
+  width: 100px;
+  height: 100px;
+}
+
+.toys-container .tape {
+  border: 1px solid blue;
+  background-color: blue;
+  border-top-right-radius: 60%;
+  border-bottom-right-radius: 60%;
+  height: 4vh;
+  width: 50%;
 }
 
 .header-container div {

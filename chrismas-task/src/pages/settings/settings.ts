@@ -1,7 +1,7 @@
 import Page from '../../core/templates/page'
 import { changeVisibility } from '../../utils'
 import data from '../../toys';
-import { myAsynFunction } from '../../view/view'
+import { Card } from '../../core/interfaces/interface';
 
 
 class SettingsPage extends Page{
@@ -22,57 +22,51 @@ class SettingsPage extends Page{
     return this.container;
   }
 
-  makeContainer(){
-    const сontainer:HTMLElement=document.createElement('div');
+  private makeContainer() {
+    const сontainer: HTMLElement = document.createElement('div');
     сontainer.classList.add('content-container');
     (document.querySelector('.main-container') as HTMLElement).append(сontainer);
     сontainer.append(this.makeAllContainer());
   }
 
-  makeAllContainer() {
-    const toysContainer:HTMLElement= document.createElement('div');
+  private makeAllContainer() {
+    const toysContainer: HTMLElement = document.createElement('div');
+    const cards = this.loadCards();
+    const cardElements = cards.map((card, i) => this.createCardElement(card, i));
+
     toysContainer.classList.add('toys-container');
-  data.forEach((elem) => {
-    let singleToyCard:HTMLElement = this.drawToy(elem);
-    toysContainer.append(singleToyCard);
-  });
+    toysContainer.append(...cardElements);
 
     return toysContainer;
   }
 
-  drawToy(elem) {
-      const toyContainer:HTMLElement= document.createElement('div');
-      toyContainer.classList.add('toy-container')
+  private createCardElement(card: Card, cardIndex: number): HTMLElement {
+    const { name, count, year, shape, color, size, favorite } = card;
+    const imgIndex = cardIndex + 1;
+    const url = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/toys/${imgIndex}.png`;
+    const toyCardTemplate = `
+        <h2>${name}</h2>
+        <img src="${url}" alt="${name}"/>
+        <p>Количество: ${count}</p>
+        <p>Год покупки: ${year}</p>
+        <p>Форма игрушки: ${shape}</p>
+        <p>Цвет игрушки: ${color}</p>
+        <p>Размер игрушки: ${size}</p>
+        <div class="tape"></div>
+        <p>Любимая: ${favorite===true? 'да': 'нет'}</p>
+        </div>
+      `;
+    const cardElement: HTMLElement = document.createElement('div');
 
-      const name:HTMLElement=document.createElement('h2');
-      name.textContent=elem.name;
+    cardElement.classList.add('toy-container');
+    cardElement.innerHTML = toyCardTemplate;
 
-      const count:HTMLElement=document.createElement('p');
-      count.textContent=`Количество: ${elem.count}`;
-
-      const year:HTMLElement=document.createElement('p');
-      year.textContent=`Год покупки: ${elem.year}`;
-
-      const shape:HTMLElement=document.createElement('p');
-      shape.textContent=`Форма игрушки: ${elem.shape}`;
-
-      const color:HTMLElement=document.createElement('p');
-      color.textContent=`Цвет игрушки: ${elem.color}`;
-
-      const size:HTMLElement=document.createElement('p');
-      size.textContent=`Размер игрушки: ${elem.size}`;
-
-      const favorite:HTMLElement=document.createElement('p');
-      favorite.textContent=`Любимая: ${elem.favorite}`;
-
-      toyContainer.append(name, count, year, shape, color, size, favorite);
-
-    return toyContainer;
+    return cardElement;
   }
 
-
-
-
+  private loadCards(): Card[] {
+    return data as Card[];
+  }
 }
 
 export default SettingsPage;
