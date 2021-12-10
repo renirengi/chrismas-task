@@ -11,8 +11,23 @@ background-color: black;
 }
 
 main{
-  height: 80vh;
+  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg");
 }
+
+.content-container{
+ display:flex;
+ height: 4000px;
+ background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg");
+}
+
+.toys-container{
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
 .header-container div {
   display: flex;
   justify-content: space-evenly;

@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Page from '../../core/templates/page'
 import { changeVisibility } from '../../utils'
 import data from '../../toys';
+import { myAsynFunction } from '../../view/view'
 
 
 class SettingsPage extends Page{
@@ -32,16 +32,19 @@ class SettingsPage extends Page{
   makeAllContainer() {
     const toysContainer:HTMLElement= document.createElement('div');
     toysContainer.classList.add('toys-container');
-    this.drawAllToys();
+  data.forEach((elem) => {
+    let singleToyCard:HTMLElement = this.drawToy(elem);
+    toysContainer.append(singleToyCard);
+  });
+
     return toysContainer;
   }
 
-  drawAllToys() {
-    const toys = data.forEach((elem:any) => {
+  drawToy(elem) {
       const toyContainer:HTMLElement= document.createElement('div');
       toyContainer.classList.add('toy-container')
 
-      const name:HTMLElement=document.createElement('p');
+      const name:HTMLElement=document.createElement('h2');
       name.textContent=elem.name;
 
       const count:HTMLElement=document.createElement('p');
@@ -62,18 +65,9 @@ class SettingsPage extends Page{
       const favorite:HTMLElement=document.createElement('p');
       favorite.textContent=`Любимая: ${elem.favorite}`;
 
-      toyContainer.append(name);
-      toyContainer.append(count);
-      toyContainer.append(year);
-      toyContainer.append(shape);
-      toyContainer.append(color);
-      toyContainer.append(size);
-      toyContainer.append(favorite);
+      toyContainer.append(name, count, year, shape, color, size, favorite);
 
-      console.log(toyContainer);
-    })
-
-    return toys;
+    return toyContainer;
   }
 
 

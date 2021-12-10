@@ -12,6 +12,9 @@ const baseConfig = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
+      { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, use: 'asset/resource' },
+      // Fonts and SVGs: Inline files
+      { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, use: 'asset/inline' },
       {
         test: /\.ts?$/,
         use: 'ts-loader',
