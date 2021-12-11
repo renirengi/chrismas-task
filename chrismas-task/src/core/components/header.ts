@@ -29,13 +29,27 @@ class Header extends Component {
       buttonHTML.innerText = button.text;
       buttonHTML.classList.add('active');
       pageButtons.append(buttonHTML);
+
     });
     this.container.append(pageButtons);
+    this.container.append(this.createSearchElement());
   }
 
   render() {
     this.renderPageButtons();
+
     return this.container;
+  }
+
+   createSearchElement(){
+    const searchElementContainer:HTMLElement = document.createElement('div');
+    searchElementContainer.classList.add('search-element-container');
+    const createSearchElementTemplate=`
+    <input type="text" id="input" placeholder="Введите название игрушки..">
+    `
+    searchElementContainer.innerHTML=createSearchElementTemplate;
+    return searchElementContainer;
+
   }
 }
 
