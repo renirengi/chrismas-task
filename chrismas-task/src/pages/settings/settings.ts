@@ -29,6 +29,7 @@ class SettingsPage extends Page{
     (document.querySelector('.main-container') as HTMLElement).append(сontainer);
     сontainer.append(this.makeFilterContainer());
     сontainer.append(this.makeAllContainer());
+    this.saveDataValue();
   }
 
   private makeAllContainer() {
@@ -48,23 +49,23 @@ class SettingsPage extends Page{
     const filterCardTemplate=`
     <div class="controls-title">Фильтры по значению</div>
         <div class="shape">Форма:
-          <button data-filter="шар"></button>
-          <button data-filter="колокольчик"></button>
-          <button data-filter="шишка"></button>
-          <button data-filter="снежинка"></button>
-          <button data-filter="фигурка"></button>
+          <button class="button" data-filter="шар"></button>
+          <button class="button" data-filter="колокольчик"></button>
+          <button class="button" data-filter="шишка"></button>
+          <button class="button" data-filter="снежинка"></button>
+          <button class="button" data-filter="фигурка"></button>
         </div>
         <div class="color">Цвет:
-          <button data-filter="белый"></button>
-          <button data-filter="желтый"></button>
-          <button data-filter="красный"></button>
-          <button data-filter="синий"></button>
-          <button data-filter="зелёный"></button>
+          <button class="button" data-filter="белый"></button>
+          <button class="button" data-filter="желтый"></button>
+          <button class="button" data-filter="красный"></button>
+          <button class="button" data-filter="синий"></button>
+          <button class="button" data-filter="зелёный"></button>
         </div>
         <div class="size">Размер:
-          <button data-filter="большой"></button>
-          <button data-filter="средний"></button>
-          <button data-filter="малый"></button>
+          <button class="button" data-filter="большой"></button>
+          <button class="button" data-filter="средний"></button>
+          <button class="button" data-filter="малый"></button>
         </div>
         <div class="favorite-container">Только любимые:
           <div class="form-group">
@@ -106,6 +107,13 @@ class SettingsPage extends Page{
       `;
       filterContainer.innerHTML = filterCardTemplate;
       return filterContainer;
+  }
+
+  private saveDataValue(){
+    const buttonGroup = document.querySelectorAll('.button');
+    const dataValue = buttonGroup.forEach((el) => el.addEventListener('click', () => el.dataset.filter));
+    console.log(dataValue);
+    return dataValue;
   }
 
   private createCardElement(card: Card, cardIndex: number): HTMLElement {
