@@ -168,12 +168,17 @@ class SettingsPage extends Page {
     const shapeFilterValues = shapeFilters.reduce(reducer, [] as string[]);
     const colorFilterValues = colorFilters.reduce(reducer, [] as string[]);
     const sizeFilterValues = sizeFilters.reduce(reducer, [] as string[]);
+    this.sorted('.shape', shapeFilterValues);
+  }
 
-    const shapeArray = Array.from(document.querySelectorAll('.shape'));
-    shapeFilterValues.forEach((el)=>{
-    
-    })
-    return
+  private sorted(className:string, array: string []) {
+    const list = document.querySelectorAll(className);
+    const filteredList = Array.from(list).filter((elem) => {
+    console.log(!array.includes(elem.toString()));
+    return !array.includes(elem.toString());
+  })
+  filteredList.forEach((elem) => {(elem as HTMLElement).parentElement!.style.display = 'none'});
+
   }
 }
 
