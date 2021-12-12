@@ -1,16 +1,23 @@
-import Page from '../../core/templates/page'
-import { changeVisibility } from '../../utils'
+import Page from '../../core/templates/page';
+import { changeVisibility } from '../../utils';
 import data from '../../toys';
 import { Card } from '../../core/interfaces/interface';
-import { filter } from 'minimatch';
 
+export interface FilterElements {
+  shapeFilters: HTMLElement[],
+  colorFilters: HTMLElement[],
+  sizeFilters: HTMLElement[],
+}
 
-class SettingsPage extends Page{
-  /*static TextObject = {
-    MainTitle: 'Settings Page',
-  };*/
+class SettingsPage extends Page {
 
-  constructor(id:string) {
+  private filterElements: FilterElements = {
+    shapeFilters: [],
+    colorFilters: [],
+    sizeFilters: [],
+  };
+
+  constructor(id: string) {
     super(id);
   }
 
@@ -29,7 +36,6 @@ class SettingsPage extends Page{
     (document.querySelector('.main-container') as HTMLElement).append(сontainer);
     сontainer.append(this.makeFilterContainer());
     сontainer.append(this.makeAllContainer());
-    this.saveDataValue();
   }
 
   private makeAllContainer() {
@@ -45,35 +51,37 @@ class SettingsPage extends Page{
 
   private makeFilterContainer() {
     const filterContainer: HTMLElement = document.createElement('div');
-    filterContainer.classList.add('filter');
-    const filterCardTemplate=`
-    <div class="controls-title">Фильтры по значению</div>
-        <div class="shape">Форма:
-          <button class="button" data-filter="шар"></button>
-          <button class="button" data-filter="колокольчик"></button>
-          <button class="button" data-filter="шишка"></button>
-          <button class="button" data-filter="снежинка"></button>
-          <button class="button" data-filter="фигурка"></button>
-        </div>
-        <div class="color">Цвет:
-          <button class="button" data-filter="белый"></button>
-          <button class="button" data-filter="желтый"></button>
-          <button class="button" data-filter="красный"></button>
-          <button class="button" data-filter="синий"></button>
-          <button class="button" data-filter="зелёный"></button>
-        </div>
-        <div class="size">Размер:
-          <button class="button" data-filter="большой"></button>
-          <button class="button" data-filter="средний"></button>
-          <button class="button" data-filter="малый"></button>
-        </div>
-        <div class="favorite-container">Только любимые:
-          <div class="form-group">
-            <input type="checkbox" class="favorite-input" id="checkbox" />
-            <label for="checkbox" class="favorite-input-label"></label>
-          </div>
-        </div>
 
+    filterContainer.classList.add('filter');
+
+    const filterCardTemplate = `
+      <div class="controls-title">Фильтры по значению</div>
+      <div class="shape">Форма:
+        <button data-filter="шар"></button>
+        <button data-filter="колокольчик"></button>
+        <button data-filter="шишка"></button>
+        <button data-filter="снежинка"></button>
+        <button data-filter="фигурка"></button>
+      </div>
+      <div class="color">Цвет:
+        <button data-filter="белый"></button>
+        <button data-filter="желтый"></button>
+        <button data-filter="красный"></button>
+        <button data-filter="синий"></button>
+        <button data-filter="зелёный"></button>
+      </div>
+      <div class="size">Размер:
+        <button data-filter="большой"></button>
+        <button data-filter="средний"></button>
+        <button data-filter="малый"></button>
+      </div>
+      <div class="favorite-container">
+        Только любимые:
+        <div class="form-group">
+          <input type="checkbox" class="favorite-input" id="checkbox" />
+          <label for="checkbox" class="favorite-input-label"></label>
+        </div>
+      </div>
       </div>
       <div class="range">
         <div class="controls-title">Фильтры по диапазону</div>
@@ -105,15 +113,14 @@ class SettingsPage extends Page{
         <button class="reset">Сброс фильтров</button>
       </div>
       `;
-      filterContainer.innerHTML = filterCardTemplate;
-      return filterContainer;
-  }
+    filterContainer.innerHTML = filterCardTemplate;
 
-  private saveDataValue(){
-    const buttonGroup = document.querySelectorAll('.button');
-    const dataValue = buttonGroup.forEach((el) => el.addEventListener('click', () => el.dataset.filter));
-    console.log(dataValue);
-    return dataValue;
+    this.filterElements.shapeFilters = Array.from(filterContainer.querySelectorAll('.shape button'));
+    this.filterElements.colorFilters = Array.from(filterContainer.querySelectorAll('.color button'));
+    this.filterElements.sizeFilters = Array.from(filterContainer.querySelectorAll('.size button'));
+
+    filterContainer.addEventListener('click', this.filterClickHandler.bind(this));
+    return filterContainer;
   }
 
   private createCardElement(card: Card, cardIndex: number): HTMLElement {
@@ -125,11 +132,11 @@ class SettingsPage extends Page{
         <img src="${url}" alt="${name}"/>
         <p>Количество: ${count}</p>
         <p>Год покупки: ${year}</p>
-        <p>Форма игрушки: ${shape}</p>
-        <p>Цвет игрушки: ${color}</p>
-        <p>Размер игрушки: ${size}</p>
+        <p class="shape">Форма игрушки: ${shape}</p>
+        <p class="color">Цвет игрушки: ${color}</p>
+        <p class=""size">Размер игрушки: ${size}</p>
         <div class="tape"></div>
-        <p>Любимая: ${favorite===true? 'да': 'нет'}</p>
+        <p>Любимая: ${favorite === true ? 'да' : 'нет'}</p>
         </div>
       `;
     const cardElement: HTMLElement = document.createElement('div');
@@ -142,6 +149,31 @@ class SettingsPage extends Page{
 
   private loadCards(): Card[] {
     return data as Card[];
+  }
+
+  private filterClickHandler(e: Event) {
+    const target = e.target as HTMLElement;
+    const {shapeFilters, colorFilters, sizeFilters} = this.filterElements;
+
+    if ([...shapeFilters, ...colorFilters, ...sizeFilters].includes(target)) {
+      target.classList.toggle('active');
+    }
+
+    this.applyFilters();
+  }
+
+  private applyFilters() {
+    const {shapeFilters, colorFilters, sizeFilters} = this.filterElements;
+    const reducer = (acc: string[], el: HTMLElement) => el.classList.contains('active') ? [...acc, el.getAttribute('data-filter') as string] : acc;
+    const shapeFilterValues = shapeFilters.reduce(reducer, [] as string[]);
+    const colorFilterValues = colorFilters.reduce(reducer, [] as string[]);
+    const sizeFilterValues = sizeFilters.reduce(reducer, [] as string[]);
+
+    const shapeArray = Array.from(document.querySelectorAll('.shape'));
+    shapeFilterValues.forEach((el)=>{
+    
+    })
+    return
   }
 }
 
