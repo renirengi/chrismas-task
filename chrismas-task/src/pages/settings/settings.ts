@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Page from '../../core/templates/page';
 import { changeVisibility } from '../../utils';
 import data from '../../toys';
-import { Card } from '../../core/interfaces/interface';
+import { createCardElement } from '../settings/card.component'
+import { AppliedFiltersModel, Card, FilterNames, AppliedFilterValues } from '../../core/interfaces/interface';
 
 export interface FilterElements {
   shapeFilters: HTMLElement[],
@@ -17,8 +19,14 @@ class SettingsPage extends Page {
     sizeFilters: [],
   };
 
+  // Model
+  private cards: Card[] = [];
+  // View
+  private cardElements = [] as HTMLElement[];
+
   constructor(id: string) {
     super(id);
+    this.cards = this.loadCards();
   }
 
   render() {
@@ -40,11 +48,10 @@ class SettingsPage extends Page {
 
   private makeAllContainer() {
     const toysContainer: HTMLElement = document.createElement('div');
-    const cards = this.loadCards();
-    const cardElements = cards.map((card, i) => this.createCardElement(card, i));
+    this.cardElements = this.cards.map((card, i) => this.createCardElement(card, i));
 
     toysContainer.classList.add('toys-container');
-    toysContainer.append(...cardElements);
+    toysContainer.append(...this.cardElements);
 
     return toysContainer;
   }
@@ -123,6 +130,73 @@ class SettingsPage extends Page {
     return filterContainer;
   }
 
+  private filterClickHandler(e: Event) {
+    const target = e.target as HTMLElement;
+    const {shapeFilters, colorFilters, sizeFilters} = this.filterElements;
+
+    if ([...shapeFilters, ...colorFilters, ...sizeFilters].includes(target)) {
+      target.classList.toggle('active');
+    }
+
+    this.applyFilters();
+  }
+
+   applyFilters() {
+    const {shapeFilters, colorFilters, sizeFilters} = this.filterElements;
+    const reducer = (acc: string[], el: HTMLElement) => el.classList.contains('active') ? [...acc, el.getAttribute('data-filter') as string] : acc;
+    const shapeFilterValues = shapeFilters.reduce(reducer, [] as string[]);
+    const colorFilterValues = colorFilters.reduce(reducer, [] as string[]);
+    const sizeFilterValues = sizeFilters.reduce(reducer, [] as string[]);
+
+    const filterValues: Partial<AppliedFiltersModel> = {shape: shapeFilterValues, color: colorFilterValues, size: sizeFilterValues};
+    const filteredCards = this.cards.filter((card: Card) => this.filterCard(card, filterValues));
+    const visibleCards = filteredCards.map((card) => card.num);
+    console.log(visibleCards);
+
+    this.cardElements.forEach((elem, i) => this.applyCardVisibility(elem, visibleCards.includes(i)));
+  }
+
+  private filterCard(card: Card, appliedFilters: Partial<AppliedFiltersModel>): boolean {
+      const predicate = ([filterName, filterValue]: [FilterNames, AppliedFilterValues]): boolean => {
+      const cardValue = card[filterName];
+      const isNameFilter = () => typeof filterValue === 'string';
+      const isFavoritesFilter = () => typeof filterValue === 'boolean';
+      const isEmptyArray = () => Array.isArray(filterValue) && filterValue.length === 0;
+      const isNumberFilter = () => Array.isArray(filterValue) && typeof filterValue[0] === 'number';
+
+      if (!filterValue || !cardValue || isEmptyArray()) {
+        return true;
+      } else if (isNameFilter()) {
+        return (cardValue as string).includes(filterValue as string);
+      } else if (isFavoritesFilter()) {
+        return filterValue as boolean && (cardValue as boolean);
+      } else if (isNumberFilter()) {
+        const [start, end] = filterValue as number[];
+
+        return start <= cardValue && cardValue >= end;
+      } else {
+        return (filterValue as string[]).includes(cardValue as string);
+      }
+    };
+
+    // @ts-ignore
+    return Object.entries(appliedFilters).every(predicate);
+  }
+
+  private applyCardVisibility(cardElement: HTMLElement, shouldBeVisible: boolean): void {
+    ///console.log(cardElement);
+    const elementVisible = cardElement.style.display !== 'none';
+
+    ///console.log(cardElement, elementVisible, shouldBeVisible)
+
+    if (elementVisible && !shouldBeVisible) {
+      cardElement.style.display = 'none';
+   } else if (!elementVisible && shouldBeVisible) {
+      cardElement.style.display = 'block';
+
+    }
+  }
+
   private createCardElement(card: Card, cardIndex: number): HTMLElement {
     const { name, count, year, shape, color, size, favorite } = card;
     const imgIndex = cardIndex + 1;
@@ -143,43 +217,20 @@ class SettingsPage extends Page {
 
     cardElement.classList.add('toy-container');
     cardElement.innerHTML = toyCardTemplate;
+    cardElement.style.display = 'block'
 
     return cardElement;
   }
 
   private loadCards(): Card[] {
-    return data as Card[];
+    return data.map((item, index) => {
+      const {name, count, year, shape, color, size, favorite} = item;
+
+      return {num: index, name, count: +count, year: +year, shape, color, size, favorite}
+    });
   }
 
-  private filterClickHandler(e: Event) {
-    const target = e.target as HTMLElement;
-    const {shapeFilters, colorFilters, sizeFilters} = this.filterElements;
-
-    if ([...shapeFilters, ...colorFilters, ...sizeFilters].includes(target)) {
-      target.classList.toggle('active');
-    }
-
-    this.applyFilters();
-  }
-
-  private applyFilters() {
-    const {shapeFilters, colorFilters, sizeFilters} = this.filterElements;
-    const reducer = (acc: string[], el: HTMLElement) => el.classList.contains('active') ? [...acc, el.getAttribute('data-filter') as string] : acc;
-    const shapeFilterValues = shapeFilters.reduce(reducer, [] as string[]);
-    const colorFilterValues = colorFilters.reduce(reducer, [] as string[]);
-    const sizeFilterValues = sizeFilters.reduce(reducer, [] as string[]);
-    this.sorted('.shape', shapeFilterValues);
-  }
-
-  private sorted(className:string, array: string []) {
-    const list = document.querySelectorAll(className);
-    const filteredList = Array.from(list).filter((elem) => {
-    console.log(!array.includes(elem.toString()));
-    return !array.includes(elem.toString());
-  })
-  filteredList.forEach((elem) => {(elem as HTMLElement).parentElement!.style.display = 'none'});
-
-  }
+  
 }
 
 export default SettingsPage;
