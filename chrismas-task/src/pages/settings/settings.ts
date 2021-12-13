@@ -141,7 +141,7 @@ class SettingsPage extends Page {
     this.applyFilters();
   }
 
-   applyFilters() {
+   private applyFilters() {
     const {shapeFilters, colorFilters, sizeFilters} = this.filterElements;
     const reducer = (acc: string[], el: HTMLElement) => el.classList.contains('active') ? [...acc, el.getAttribute('data-filter') as string] : acc;
     const shapeFilterValues = shapeFilters.reduce(reducer, [] as string[]);
@@ -151,7 +151,7 @@ class SettingsPage extends Page {
     const filterValues: Partial<AppliedFiltersModel> = {shape: shapeFilterValues, color: colorFilterValues, size: sizeFilterValues};
     const filteredCards = this.cards.filter((card: Card) => this.filterCard(card, filterValues));
     const visibleCards = filteredCards.map((card) => card.num);
-    console.log(visibleCards);
+    console.log(this.cardElements.forEach((elem, i) => this.applyCardVisibility(elem, visibleCards.includes(i))));
 
     this.cardElements.forEach((elem, i) => this.applyCardVisibility(elem, visibleCards.includes(i)));
   }
@@ -180,19 +180,19 @@ class SettingsPage extends Page {
     };
 
     // @ts-ignore
-    return Object.entries(appliedFilters).every(predicate);
+     return Object.entries(appliedFilters).every(predicate);
   }
 
   private applyCardVisibility(cardElement: HTMLElement, shouldBeVisible: boolean): void {
-    ///console.log(cardElement);
+    console.log(cardElement);
     const elementVisible = cardElement.style.display !== 'none';
 
     ///console.log(cardElement, elementVisible, shouldBeVisible)
 
-    if (elementVisible && !shouldBeVisible) {
-      cardElement.style.display = 'none';
-   } else if (!elementVisible && shouldBeVisible) {
+    if (!elementVisible && shouldBeVisible) {
       cardElement.style.display = 'block';
+      } else if (elementVisible && !shouldBeVisible) {
+      cardElement.style.display = 'none';
 
     }
   }
@@ -230,7 +230,7 @@ class SettingsPage extends Page {
     });
   }
 
-  
+
 }
 
 export default SettingsPage;

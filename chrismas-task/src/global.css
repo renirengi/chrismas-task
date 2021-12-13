@@ -20,6 +20,14 @@ main{
  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg");
 }
 
+.filter.shape button[data-filter="шар"]{
+  background-color: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/ball.svg");
+}
+
+.filter.shape button[data-filter="колокольчик"]{
+  background-color: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/bell.svg");
+}
+
 .toys-container{
   display: flex;
   flex-wrap: wrap;
