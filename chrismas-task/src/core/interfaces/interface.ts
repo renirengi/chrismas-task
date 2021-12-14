@@ -21,3 +21,13 @@ export interface AppliedFiltersModel {
 
 export type FilterNames = 'name' | 'count' | 'year' | 'shape' | 'color' | 'size' | 'favorite';
 export type AppliedFilterValues = string | string[] | number[] | boolean;
+
+export interface FilterElements {
+  name: HTMLElement;
+  count: HTMLElement[];
+  year: HTMLElement[];
+  shape: HTMLElement[],
+  color: HTMLElement[],
+  size: HTMLElement[],
+  favorite: HTMLElement;
+}

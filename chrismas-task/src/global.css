@@ -28,6 +28,11 @@ main{
   background-color: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/bell.svg");
 }
 
+.year-slider {
+  height: 3vh;
+  width: 100px;
+}
+
 .toys-container{
   display: flex;
   flex-wrap: wrap;
@@ -56,11 +61,4 @@ main{
   justify-content: space-evenly;
 }
 
-.hidden {
-  opacity: 0;
-  transition: opacity 0.5s ease-out, width 0.5s ease 0.5s, height 0.5s ease 0.5s;
-}
 
-.active.hidden {
-  opacity: 1;
-}
