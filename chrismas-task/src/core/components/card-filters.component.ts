@@ -1,6 +1,6 @@
 import { AppliedFiltersModel, FilterElements, FilterNames } from '../interfaces/interface';
 import noUiSlider from 'nouislider';
-import { makeCountRange, makeYearRange } from './card-filters-range.component'
+import { makeCountRange, makeYearRange, changeOutputValue, getOutputValueMin } from './card-filters-range.component'
 
 const cardFiltersTemplate = `
     <div class="controls-title">Фильтры по значению</div>
@@ -36,17 +36,17 @@ const cardFiltersTemplate = `
       <div class="count">
         <span class="control-span">Количество экземпляров:</span>
         <div class="count-slider-container">
-          <output class="slider-output">1</output>
+          <output id="count-min" class="slider-output">1</output>
           <div class="count-slider"></div>
-          <output class="slider-output">12</output>
+          <output id="count-max" class="slider-output">12</output>
         </div>
       </div>
       <div class="year">
         <span class="control-span">Год приобретения:</span>
         <div class="year-slider-container">
-          <output class="slider-output">1940</output>
+          <output id="year-min" class="slider-output">1940</output>
           <div class="year-slider"></div>
-          <output class="slider-output">2020</output>
+          <output id="year-max" class="slider-output">2020</output>
         </div>
       </div>
     </div>
@@ -89,6 +89,10 @@ export default class CardFiltersComponent extends HTMLElement {
     private filterClickHandler(e: Event): void {
     const target = e.target as HTMLElement;
     const { shape, color, size, year, count } = this.filterElements;
+    const sliderCount = document.querySelector('.count-slider') as HTMLElement;
+    sliderCount.noUiSlider.on('update', () => changeOutputValue('count'));
+    const sliderYear = document.querySelector('.year-slider') as HTMLElement;
+    sliderYear.noUiSlider.on('update', () => changeOutputValue('year'));
 
     if ([...shape].includes(target)) {
       this.applyColorFilter(target, 'shape');

@@ -45,4 +45,21 @@ export function  makeYearRange(){
        'max': 2020
    }
 });
- }
+}
+export function changeOutputValue(className:string){
+  const elemIdMin=document.getElementById(`${className}-min`) as HTMLElement;
+  const elemIdMax=document.getElementById(`${className}-max`) as HTMLElement;
+  elemIdMin.innerHTML = getOutputValue(0, className);
+  elemIdMax.innerHTML = getOutputValue(1, className);
+}
+
+ function getOutputValue(i:number, className:string){
+  const elemSlider = document.querySelector(`.${className}-slider`) as HTMLElement;
+  const positionsArray=elemSlider.noUiSlider.get();
+  const minStringNumber=+positionsArray[i];
+  console.log();
+  return minStringNumber.toString();
+
+}
+
+
