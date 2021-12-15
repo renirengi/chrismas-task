@@ -63,8 +63,8 @@ class SettingsPage extends Page {
         return (filterValue as boolean) && (cardValue as boolean);
       } else if (isNumberFilter()) {
         const [start, end] = filterValue as number[];
-
-        return start <= cardValue && cardValue >= end;
+        console.log(start, end, cardValue, start <= cardValue && cardValue <= end)
+        return start <= cardValue && cardValue <= end;
       } else {
         return (filterValue as string[]).includes(cardValue as string);
       }

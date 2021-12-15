@@ -1,6 +1,7 @@
 import { AppliedFiltersModel, FilterElements, FilterNames } from '../interfaces/interface';
-import noUiSlider from 'nouislider';
-import { makeCountRange, makeYearRange, changeOutputValue, getOutputValueMin } from './card-filters-range.component'
+import { makeCountRange, makeYearRange } from './card-filters-range.component';
+
+export type ElementNoUiSlider = { noUiSlider: { on: (a: string, b: (e: string[]) => void) => void } };
 
 const cardFiltersTemplate = `
     <div class="controls-title">Фильтры по значению</div>
@@ -63,7 +64,6 @@ const cardFiltersTemplate = `
   `;
 
 export default class CardFiltersComponent extends HTMLElement {
-
   public filterValues: Partial<AppliedFiltersModel> = {};
 
   private filterElements = {} as FilterElements;
@@ -71,7 +71,7 @@ export default class CardFiltersComponent extends HTMLElement {
   public connectedCallback() {
     this.innerHTML = cardFiltersTemplate;
     makeYearRange();
-    makeCountRange()
+    makeCountRange();
 
     const name = this.querySelector('.search-element-container input') as HTMLElement;
     const count = Array.from(this.querySelectorAll('.count-slider-container output')) as HTMLElement[];
@@ -80,19 +80,28 @@ export default class CardFiltersComponent extends HTMLElement {
     const color = Array.from(this.querySelectorAll('.color button')) as HTMLElement[];
     const size = Array.from(this.querySelectorAll('.size button')) as HTMLElement[];
     const favorite = this.querySelector('.favorite-input') as HTMLElement;
+    const sliderCount = document.querySelector('.count-slider') as HTMLElement & ElementNoUiSlider;
+    const sliderYear = document.querySelector('.year-slider') as HTMLElement & ElementNoUiSlider;
 
     this.filterElements = { name, count, year, shape, color, size, favorite };
 
     this.addEventListener('click', this.filterClickHandler.bind(this));
+
+
+    sliderCount.noUiSlider.on('update', (e) => this.sliderSlideHandler(e, 'count'));
+    sliderYear.noUiSlider.on('update', (e) => this.sliderSlideHandler(e, 'year'));
   }
 
-    private filterClickHandler(e: Event): void {
+  private sliderSlideHandler(values: string[], filterKey: FilterNames): void {
+    const [min, max] = values;
+
+    this.filterValues = { ...this.filterValues, [filterKey]: [+min, +max] };
+    this.emitEvent();
+  }
+
+  private filterClickHandler(e: Event): void {
     const target = e.target as HTMLElement;
     const { shape, color, size, year, count } = this.filterElements;
-    const sliderCount = document.querySelector('.count-slider') as HTMLElement;
-    sliderCount.noUiSlider.on('update', () => changeOutputValue('count'));
-    const sliderYear = document.querySelector('.year-slider') as HTMLElement;
-    sliderYear.noUiSlider.on('update', () => changeOutputValue('year'));
 
     if ([...shape].includes(target)) {
       this.applyColorFilter(target, 'shape');
@@ -100,12 +109,6 @@ export default class CardFiltersComponent extends HTMLElement {
       this.applyColorFilter(target, 'color');
     } else if ([...size].includes(target)) {
       this.applyColorFilter(target, 'size');
-    }
-    else if ([...count].includes(target)) {
-    console.log (23243);
-    }
-    else if ([...year].includes(target)) {
-      this.applyColorFilter(target, 'year');
     }
   }
 
@@ -117,16 +120,14 @@ export default class CardFiltersComponent extends HTMLElement {
     const filterElements = this.filterElements[filterKey] as HTMLElement[];
     const filterValue = filterElements.reduce(reducer, [] as string[]);
 
-    this.filterValues = {...this.filterValues, [filterKey]: filterValue};
+    this.filterValues = { ...this.filterValues, [filterKey]: filterValue };
 
     this.emitEvent();
   }
 
-
-
   private emitEvent() {
-    const detail = {filterValues: this.filterValues};
+    const detail = { filterValues: this.filterValues };
 
-    this.dispatchEvent(new CustomEvent('filtersUpdated', {detail}));
+    this.dispatchEvent(new CustomEvent('filtersUpdated', { detail }));
   }
 }
