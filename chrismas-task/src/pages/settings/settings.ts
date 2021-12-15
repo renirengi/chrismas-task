@@ -5,6 +5,7 @@ import data from '../../toys';
 import { AppliedFiltersModel, Card, FilterNames, AppliedFilterValues } from '../../core/interfaces/interface';
 import CardFiltersComponent from '../../core/components/card-filters.component';
 import CardListComponent from '../../core/components/card-list.component';
+import { sortMax, sortMin }  from '../../core/components/card-filters-sort.component';
 
 class SettingsPage extends Page {
   private cards: Card[] = [];
@@ -31,7 +32,7 @@ class SettingsPage extends Page {
 
     this.filtersElement = сontainer.querySelector('card-filters') as CardFiltersComponent;
     this.listElement = сontainer.querySelector('card-list') as CardListComponent;
-
+    console.log(this.listElement)
     this.filtersElement.addEventListener('filtersUpdated', (e) =>
       this.filtersUpdateHandler((e as CustomEvent).detail.filterValues)
     );
@@ -43,13 +44,27 @@ class SettingsPage extends Page {
 
   private filtersUpdateHandler(filterValues: Partial<AppliedFiltersModel>): void {
     const filteredCards = this.cards.filter((card: Card) => this.filterCard(card, filterValues));
-
+    const changeOptions = document.querySelector('.sort-select');
+    if (changeOptions.value==="sort-name-max"){
+      sortMax(filteredCards,'name');
+    }
+    else if(changeOptions.value==="sort-name-min"){
+      sortMin(filteredCards,'name');
+    }
+    else if (changeOptions.value==="sort-count-max"){
+      sortMax(filteredCards,'count');
+    }
+    else if (changeOptions.value==="sort-count-min"){
+      sortMin(filteredCards,'count');
+    }
+    console.log(filteredCards)
     this.listElement.updateCardList(filteredCards);
   }
 
   private filterCard(card: Card, appliedFilters: Partial<AppliedFiltersModel>): boolean {
     const predicate = ([filterName, filterValue]: [FilterNames, AppliedFilterValues]): boolean => {
       const cardValue = card[filterName];
+      console.log(card)
       const isNameFilter = () => typeof filterValue === 'string';
       const isFavoritesFilter = () => typeof filterValue === 'boolean';
       const isEmptyArray = () => Array.isArray(filterValue) && filterValue.length === 0;
@@ -63,7 +78,7 @@ class SettingsPage extends Page {
         return (filterValue as boolean) && (cardValue as boolean);
       } else if (isNumberFilter()) {
         const [start, end] = filterValue as number[];
-        console.log(start, end, cardValue, start <= cardValue && cardValue <= end)
+        ///console.log(start, end, cardValue, start <= cardValue && cardValue <= end)
         return start <= cardValue && cardValue <= end;
       } else {
         return (filterValue as string[]).includes(cardValue as string);
