@@ -9,3 +9,7 @@ export function changeVisibility(text:string){
     }
   })
 }
+
+export function isNil(value: unknown) {
+  return value === null || value === undefined;
+}

@@ -16,28 +16,214 @@ main{
 
 .content-container{
  display:flex;
- height: 5000px;
+ flex-direction: column;
+ height: auto;
  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg");
+ background-size: contain;
 }
 
-.filter.shape button[data-filter="шар"]{
-  background-color: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/ball.svg");
+ /*Filter*/
+.card-filter-container{
+  margin: 3% 5%;
+  display:flex;
+  justify-content: space-around;
+  width: 90%;
+  color: white;
+  font-size: 20px;
+  border: 2px solid #3FBFAF;
+  background-color: black;
 }
 
-.filter.shape button[data-filter="колокольчик"]{
-  background-color: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/bell.svg");
+.button-filter,
+.range,
+.sort{
+  margin: 3% 3%;
+  display: flex;
+  flex-direction: column;
 }
 
+.title{
+  font-size: 20px;
+  text-transform: uppercase;
+  color: #3FBFAF;
+}
 
+.shape,
+.color,
+.size{
+  margin: 3% 0;
+  display: flex;
+  align-items: center;
+}
+
+.shape button{
+  width: 32px;
+  height: 32px;
+  background-size: 32px 32px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 0 2%;
+}
+
+.shape button:hover,
+.color button:hover,
+.size button:hover{
+  opacity: 1;
+}
+
+.shape button:active,
+.color button:active
+.size button:active{
+  border: 0;
+  outline: 0;
+  transform: scale(1.1);
+}
+
+.active{
+   -webkit-filter: invert(65%) sepia(15%) saturate(806%) hue-rotate(356deg) brightness(81%) contrast(80%);
+}
+
+.ball{
+  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/ball.svg");
+}
+
+.bell{
+  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/bell.svg");
+}
+
+.cone{
+  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/cone.svg");
+}
+
+.snow{
+  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/snow.svg");
+}
+
+.toy{
+  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/toy.svg");
+}
+
+.color button{
+  width: 32px;
+  height: 32px;
+  border: 1px solid black;
+  outline: 0;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 0 2%;
+}
+
+.white{
+  background-color: white;
+
+}
+
+.yellow{
+  background-color: yellow;
+}
+
+.red{
+  background-color: red;
+}
+
+.blue{
+  background-color: blue;
+}
+
+.green{
+  background-color: green;
+}
+
+.size button{
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.big,
+.small,
+.medium{
+  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/ball.svg");
+}
+
+.big{
+  width: 42px;
+  height: 42px;
+  background-size: 42px 42px;
+}
+
+.medium{
+  width: 32px;
+  height: 32px;
+  background-size: 32px 32px;
+}
+
+.small{
+  width: 22px;
+  height: 22px;
+  background-size: 22px 22px;
+}
+
+.outputs{
+  padding: 3%, 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.count p{
+  margin-top: 0;
+}
+
+.sort .title{
+  padding-bottom: 3%;
+}
+
+.sort-select{
+  height: 3vh;
+}
+
+.sort{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reset{
+  width: 100%;
+  height: 4vh;
+}
+
+ /*Toys*/
 .toys-container{
+  margin: 3% 5%;
   display: flex;
   flex-wrap: wrap;
-  width: 70%;
-  justify-content: space-between;
+  width: 90%;
+  justify-content: space-around;
   overflow: hidden;
+  color: white;
 }
 
-.toys-container img {
+.toy-container{
+  margin: 3%;
+  border: 2px solid #3FBFAF;
+  background-color: black;
+  width: 280px;
+}
+
+.toy-container img {
   display: block;
   width: 100px;
   height: 100px;

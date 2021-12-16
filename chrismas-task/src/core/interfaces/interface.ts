@@ -17,17 +17,29 @@ export interface AppliedFiltersModel {
   color: string[];
   size: string[];
   favorite: boolean;
+  sort: SortFilterValues;
+}
+
+export enum SortFilterValues {
+  az = 'az',
+  za = 'za',
+  min = 'min',
+  max = 'max',
 }
 
 export type FilterNames = 'name' | 'count' | 'year' | 'shape' | 'color' | 'size' | 'favorite';
-export type AppliedFilterValues = string | string[] | number[] | boolean;
+
+export type AppliedFilterValues = string | string[] | number[] | boolean | SortFilterValues;
+
+export type ElementNoUiSlider = { noUiSlider: { on: (a: string, b: (e: string[]) => void) => void } };
 
 export interface FilterElements {
   name: HTMLElement;
-  count: HTMLElement[];
-  year: HTMLElement[];
+  count: HTMLElement & ElementNoUiSlider;
+  year: HTMLElement & ElementNoUiSlider;
   shape: HTMLElement[],
   color: HTMLElement[],
   size: HTMLElement[],
-  favorite: HTMLElement;
+  favorite: HTMLInputElement;
+  sort: HTMLSelectElement;
 }
