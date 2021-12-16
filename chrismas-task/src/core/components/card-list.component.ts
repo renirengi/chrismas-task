@@ -14,14 +14,26 @@ export default class CardListComponent extends HTMLElement {
 
     this.innerHTML = '';
     this.append(toysContainer);
+    cardElements.forEach( (elem) => elem.addEventListener('click', () => {
+      console.log(elem.classList.toggle('basket'));
+      this.saveChangedArray();
+    }))
   }
+
+  private saveChangedArray(){
+    const changeArray = Array.from(document.querySelectorAll('.basket'));
+    console.log(changeArray.length);
+    localStorage.setItem ('changeArray', JSON.stringify(changeArray.length));
+    return changeArray.length;
+  }
+
 
   private createCardElement(card: Card): HTMLElement {
     const { name, count, year, shape, color, size, favorite } = card;
     const imgIndex = +card.num+1;
     const url = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/toys/${imgIndex}.png`;
     const toyCardTemplate = `
-        <h4>${name}</h4>
+        <h5>${name}</h5>
         <img src="${url}" alt="${name}"/>
         <p>Количество: ${count}</p>
         <p>Год покупки: ${year}</p>

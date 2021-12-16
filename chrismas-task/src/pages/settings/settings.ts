@@ -92,10 +92,10 @@ class SettingsPage extends Page {
 
   private saveFilterValuesToLocalstorage(filterValues: Partial<AppliedFiltersModel>) {
     localStorage.setItem ('filterValues', JSON.stringify(filterValues));
-    console.log(localStorage.filterValues);
+    ///console.log(localStorage.filterValues);
   }
 
-  private loadFilterValuesFromLocalstorage(): Partial<AppliedFiltersModel> | null {
+  private loadFilterValuesFromLocalstorage()  {
     const filterValues = localStorage.getItem ('filterValues')
     return filterValues ? JSON.parse(filterValues) :null;
   }
