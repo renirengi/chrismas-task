@@ -14,24 +14,11 @@ export default class CardListComponent extends HTMLElement {
 
     this.innerHTML = '';
     this.append(toysContainer);
-    cardElements.forEach( (elem) => elem.addEventListener('click', () => {
-
-      const tapeElement = elem.querySelector('.tape') as HTMLElement;
-      tapeElement.classList.toggle('activeToy');
-      this.saveChangedArray();
-    }))
   }
-
-  private saveChangedArray(){
-    const changeArray = Array.from(document.querySelectorAll('.activeToy'));
-    localStorage.setItem ('changeArray', JSON.stringify(changeArray.length));
-    return changeArray.length;
-  }
-
 
   private createCardElement(card: Card): HTMLElement {
-    const { name, count, year, shape, color, size, favorite } = card;
-    const imgIndex = +card.num+1;
+    const { num, name, count, year, shape, color, size, favorite } = card;
+    const imgIndex = 1 + num;
     const url = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/toys/${imgIndex}.png`;
     const toyCardTemplate = `
         <h5>${name}</h5>
@@ -49,8 +36,18 @@ export default class CardListComponent extends HTMLElement {
 
     cardElement.classList.add('toy-container');
     cardElement.innerHTML = toyCardTemplate;
-    ///cardElement.style.display = 'block';
+
+    cardElement?.addEventListener('click', () => this.activeToyClickHandler(num, cardElement));
 
     return cardElement;
+  }
+
+  private activeToyClickHandler(cardNum: number, target: HTMLElement) {
+    target.classList.toggle('activeToy');
+
+    const isActive = target.classList.contains('activeToy');
+    const detail = { cardNum, isActive };
+
+    this.dispatchEvent(new CustomEvent('activeToyChange', { detail }));
   }
 }

@@ -1,5 +1,11 @@
-import { AppliedFiltersModel, Card, FilterNames, AppliedFilterValues, SortFilterValues } from '../../core/interfaces/interface';
-import { changeVisibility, isNil } from '../../utils';
+import {
+  AppliedFiltersModel,
+  Card,
+  FilterNames,
+  AppliedFilterValues,
+  SortFilterValues,
+} from '../../core/interfaces/interface';
+import { changeVisibility, isNil, removeContainer } from '../../utils';
 import CardFiltersComponent from '../../core/components/card-filters.component';
 import CardListComponent from '../../core/components/card-list.component';
 import data from '../../toys';
@@ -7,6 +13,7 @@ import Page from '../../core/templates/page';
 
 class SettingsPage extends Page {
   private cards: Card[] = [];
+  private activeCards: number[] = [];
   private filtersElement!: CardFiltersComponent;
   private listElement!: CardListComponent;
 
@@ -31,12 +38,15 @@ class SettingsPage extends Page {
 
     this.filtersElement = сontainer.querySelector('card-filters') as CardFiltersComponent;
     this.listElement = сontainer.querySelector('card-list') as CardListComponent;
+
     this.filtersElement.addEventListener('filtersUpdated', (e) =>
       this.filtersUpdateHandler((e as CustomEvent).detail.filterValues)
     );
 
-    this.filtersElement.setDefaulFilterValues(storedFilterValues);
+    this.listElement.addEventListener('activeToyChange', (e) => this.activeToyChangeHandler((e as CustomEvent).detail));
 
+    this.filtersElement.setDefaulFilterValues(storedFilterValues);
+    removeContainer(rootNode);
     return this.container;
   }
 
@@ -53,6 +63,20 @@ class SettingsPage extends Page {
 
     this.listElement.updateCardList(sortedCards);
     this.saveFilterValuesToLocalstorage(filterValues);
+  }
+
+  private activeToyChangeHandler({ cardNum, isActive }: { cardNum: number; isActive: boolean }): void {
+    if (isActive) {
+      this.activeCards.push(cardNum);
+    } else {
+      const index = this.activeCards.indexOf(cardNum);
+
+      if (index > -1) {
+        this.activeCards.splice(index, 1);
+      }
+    }
+
+    console.log(this.activeCards);
   }
 
   private filterCard(card: Card, appliedFilters: Partial<AppliedFiltersModel>): boolean {
@@ -91,13 +115,12 @@ class SettingsPage extends Page {
   }
 
   private saveFilterValuesToLocalstorage(filterValues: Partial<AppliedFiltersModel>) {
-    localStorage.setItem ('filterValues', JSON.stringify(filterValues));
-    ///console.log(localStorage.filterValues);
+    localStorage.setItem('filterValues', JSON.stringify(filterValues));
   }
 
-  private loadFilterValuesFromLocalstorage()  {
-    const filterValues = localStorage.getItem ('filterValues')
-    return filterValues ? JSON.parse(filterValues) :null;
+  private loadFilterValuesFromLocalstorage() {
+    const filterValues = localStorage.getItem('filterValues');
+    return filterValues ? JSON.parse(filterValues) : null;
   }
 }
 

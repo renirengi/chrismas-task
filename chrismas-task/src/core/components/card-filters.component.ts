@@ -6,9 +6,37 @@ import {
   SortFilterValues,
 } from '../interfaces/interface';
 import { cardFiltersTemplate } from './card-filters.component.template';
-import noUiSlider from 'nouislider';
+import noUiSlider, { Options } from 'nouislider';
 
 export default class CardFiltersComponent extends HTMLElement {
+
+  private readonly countSliderConfig = {
+    start: [1, 12],
+    snap: true,
+    connect: true,
+    behaviour: 'drag',
+    range: { min: 1, '9.1%': 2, '18.2%': 3, '27.3%': 4, '36.4%': 5, '45.5%': 6, '54.6%': 7, '63.7%': 8, '72.8%': 9, '81.9%': 10, '91%': 11, max: 12 },
+  }
+
+  private readonly yearSliderConfig = {
+    start: [1940, 2020],
+    snap: true,
+    connect: true,
+    behaviour: 'drag',
+    range: {
+      min: 1940,
+      '10%': 1948,
+      '20%': 1956,
+      '30%': 1964,
+      '40%': 1972,
+      '50%': 1980,
+      '60%': 1988,
+      '70%': 1996,
+      '80%': 2004,
+      '90%': 2012,
+      max: 2020,
+    },
+  };
 
   private readonly defaultFilterValues = { sort: SortFilterValues.az };
 
@@ -25,8 +53,8 @@ export default class CardFiltersComponent extends HTMLElement {
     const color = Array.from(this.querySelectorAll('.color button')) as HTMLElement[];
     const size = Array.from(this.querySelectorAll('.size button')) as HTMLElement[];
     const favorite = this.querySelector('.favorite-input') as HTMLInputElement;
-    const count = this.initCountSlider();
-    const year = this.initYearSlider();
+    const count = this.initSlider('.count-slider', this.countSliderConfig);
+    const year = this.initSlider('.year-slider', this.yearSliderConfig);
     const sort = this.querySelector('.sort-select') as HTMLSelectElement;
 
     this.filterElements = { name, count, year, shape, color, size, favorite, sort };
@@ -91,55 +119,17 @@ export default class CardFiltersComponent extends HTMLElement {
     this.dispatchEvent(new CustomEvent('filtersUpdated', { detail }));
   }
 
-  private initCountSlider(): HTMLElement & ElementNoUiSlider {
-    const countSlider = document.querySelector('.count-slider') as HTMLElement;
+  private initSlider(selector: string, config: Options): HTMLElement & ElementNoUiSlider {
+    const yearSlider = this.querySelector(selector) as HTMLElement;
+    const [minSpan, maxSpan] = Array.from(yearSlider.parentNode?.querySelectorAll('span') as NodeListOf<HTMLSpanElement>);
+    const updateLables = ([min, max]: string[]) => {
+      minSpan.innerText = (+min).toString();
+      maxSpan.innerText = (+max).toString();
+    };
 
-    noUiSlider.create(countSlider, {
-      start: [1, 12],
-      snap: true,
-      connect: true,
-      behaviour: 'drag',
-      range: {
-        min: 1,
-        '9.1%': 2,
-        '18.2%': 3,
-        '27.3%': 4,
-        '36.4%': 5,
-        '45.5%': 6,
-        '54.6%': 7,
-        '63.7%': 8,
-        '72.8%': 9,
-        '81.9%': 10,
-        '91%': 11,
-        max: 12,
-      },
-    });
+    noUiSlider.create(yearSlider, config);
 
-    return countSlider as HTMLElement & ElementNoUiSlider;
-  }
-
-  private initYearSlider(): HTMLElement & ElementNoUiSlider {
-    const yearSlider = document.querySelector('.year-slider') as HTMLElement;
-
-    noUiSlider.create(yearSlider, {
-      start: [1940, 2020],
-      snap: true,
-      connect: true,
-      behaviour: 'drag',
-      range: {
-        min: 1940,
-        '10%': 1948,
-        '20%': 1956,
-        '30%': 1964,
-        '40%': 1972,
-        '50%': 1980,
-        '60%': 1988,
-        '70%': 1996,
-        '80%': 2004,
-        '90%': 2012,
-        max: 2020,
-      },
-    });
+    (yearSlider as HTMLElement & ElementNoUiSlider).noUiSlider.on('update', (e) => updateLables(e));
 
     return yearSlider as HTMLElement & ElementNoUiSlider;
   }

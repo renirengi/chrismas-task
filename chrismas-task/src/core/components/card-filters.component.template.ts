@@ -33,21 +33,15 @@ export const cardFiltersTemplate = `
       <p class="title">Фильтры по диапазону</p>
       <div class="count">
         <p>Количество экземпляров:</в>
-        <div class="count-slider-container">
-        <div class="outputs">
-        <output id="count-min" class="slider-output">1</output>
-        <output id="count-max" class="slider-output">12</output>
-        </div>
+        <div class="slider-container">
+          <span class="min">1</span><span class="max">12</span>
           <div class="count-slider"></div>
         </div>
       </div>
       <div class="year">
         <p>Год приобретения:</p>
-        <div class="year-slider-container">
-        <div class="outputs">
-          <output id="year-min" class="slider-output">1940</output>
-          <output id="year-max" class="slider-output">2020</output>
-        </div>
+        <div class="slider-container">
+          <span class="min">1940</span><span class="max">2020</span>
           <div class="year-slider"></div>
         </div>
       </div>

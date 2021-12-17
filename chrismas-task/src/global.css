@@ -8,6 +8,13 @@ a{
   color:green;
   font-size: 25px;
   text-transform: uppercase;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+a:hover{
+  opacity: 1;
 }
 
 a:visited{
@@ -16,6 +23,8 @@ a:visited{
 
 a:active{
   color: white;
+  outline: 0;
+  transform: scale(1.1)
 }
 
 header,
@@ -41,11 +50,43 @@ main{
   background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg");
 }
 
+.main-home-container{
+  height: 80vh;
+}
+
+h1{
+  position: absolute;
+  top: 35vh;
+  left: 25vw;
+  text-transform: uppercase;
+  color: white;
+  font-size: 6vh;
+  text-shadow: 1px 1px 2px black, 0 0 1em black;
+}
+
+.main-title{
+  position: absolute;
+  display: inline-block;
+  width: 15vw;
+  line-height: 8vh;
+  top: 60vh;
+  left: 40vw;
+  border: 2px solid #3FBFAF;
+  background-color: black;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 4vh;
+}
+
+.main-title:hover{
+  background-color: #9d8665;
+}
+
+
 .content-container{
  display:flex;
  flex-direction: column;
  height: auto;
-
 }
 
  /*Filter*/
@@ -111,7 +152,7 @@ main{
   transform: scale(1.1);
 }
 
-.activeToy,
+.toy-container.activeToy .tape,
 .active{
    -webkit-filter: invert(65%) sepia(15%) saturate(806%) hue-rotate(356deg) brightness(81%) contrast(80%);
 }
@@ -204,10 +245,14 @@ main{
   background-size: 22px 22px;
 }
 
-.outputs{
-  padding: 3%, 0;
-  display: flex;
-  justify-content: space-between;
+.slider-container span {
+  display: inline-block;
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.slider-container span.max {
+  text-align: right;
 }
 
 .count p{
