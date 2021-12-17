@@ -12,7 +12,7 @@ class GamePage extends Page{
   }
 
   render() {
-    changeVisibility('Game Page');
+    changeVisibility('ЁЛОЧКА');
     //const title = this.createHeaderTitle(GamePage.TextObject.MainTitle);
     //this.container.append(title);
     return this.container;

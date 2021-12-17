@@ -15,14 +15,15 @@ export default class CardListComponent extends HTMLElement {
     this.innerHTML = '';
     this.append(toysContainer);
     cardElements.forEach( (elem) => elem.addEventListener('click', () => {
-      console.log(elem.classList.toggle('basket'));
+
+      const tapeElement = elem.querySelector('.tape') as HTMLElement;
+      tapeElement.classList.toggle('activeToy');
       this.saveChangedArray();
     }))
   }
 
   private saveChangedArray(){
-    const changeArray = Array.from(document.querySelectorAll('.basket'));
-    console.log(changeArray.length);
+    const changeArray = Array.from(document.querySelectorAll('.activeToy'));
     localStorage.setItem ('changeArray', JSON.stringify(changeArray.length));
     return changeArray.length;
   }

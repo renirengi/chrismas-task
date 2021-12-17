@@ -16,7 +16,7 @@ class SettingsPage extends Page {
   }
 
   render() {
-    changeVisibility('Settings Page');
+    changeVisibility('ИГРУШКИ');
 
     const rootNode = document.querySelector('.main-container') as HTMLElement;
     const сontainer: HTMLElement = document.createElement('div');

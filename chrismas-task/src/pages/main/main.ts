@@ -13,7 +13,7 @@ class MainPage extends Page {
 
 
   render() {
-    changeVisibility('Main Page')
+    changeVisibility('ДОМОЙ')
     //const title = this.createHeaderTitle(MainPage.TextObject.MainTitle);
     //this.container.append(title);
     return this.container;

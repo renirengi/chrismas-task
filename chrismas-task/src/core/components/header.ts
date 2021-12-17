@@ -4,15 +4,15 @@ import { PageIds } from '../../pages/app/app';
 const Buttons = [
   {
     id: PageIds.MainPage,
-    text: 'Main Page',
+    text: 'ДОМОЙ',
   },
   {
     id: PageIds.SettingsPage,
-    text: 'Settings Page',
+    text: 'ИГРУШКИ',
   },
   {
     id: PageIds.GamePage,
-    text: 'Game Page',
+    text: 'ЁЛОЧКА',
   },
 ];
 
@@ -23,11 +23,12 @@ class Header extends Component {
 
   renderPageButtons() {
     const pageButtons = document.createElement('div');
+    pageButtons.classList.add('link-container')
     Buttons.forEach((button) => {
       const buttonHTML = document.createElement('a');
       buttonHTML.href = `#${button.id}`;
       buttonHTML.innerText = button.text;
-      buttonHTML.classList.add('active');
+      buttonHTML.classList.add('check');
       pageButtons.append(buttonHTML);
 
     });

@@ -3,11 +3,38 @@ body{
   width: 100%;
 }
 
+a{
+  text-decoration: none;
+  color:green;
+  font-size: 25px;
+  text-transform: uppercase;
+}
+
+a:visited{
+  color:#3FBFAF
+}
+
+a:active{
+  color: white;
+}
+
 header,
 footer{
 height: 10vh;
 color: white;
 background-color: black;
+}
+
+.header-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.link-container{
+  display: flex;
+  justify-content: space-around;
+  width: 30%;
 }
 
 main{
@@ -84,6 +111,7 @@ main{
   transform: scale(1.1);
 }
 
+.activeToy,
 .active{
    -webkit-filter: invert(65%) sepia(15%) saturate(806%) hue-rotate(356deg) brightness(81%) contrast(80%);
 }

@@ -1,5 +1,6 @@
 export function changeVisibility(text:string){
-  const buttonElement: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('.active');
+  console.log(text)
+  const buttonElement: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('.check');
   buttonElement.forEach((element) => {
     if(element.textContent===text){
       element.style.display = 'none';
