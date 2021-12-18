@@ -66,7 +66,6 @@ export default class CardFiltersComponent extends HTMLElement {
 
   public setDefaulFilterValues(storedFilterValues: Partial<AppliedFiltersModel> | null): void {
     this.filterValues = storedFilterValues || this.defaultFilterValues;
-
     this.emitEvent();
   }
 

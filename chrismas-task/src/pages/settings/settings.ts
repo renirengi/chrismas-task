@@ -12,6 +12,7 @@ import data from '../../toys';
 import Page from '../../core/templates/page';
 
 class SettingsPage extends Page {
+
   private cards: Card[] = [];
   private activeCards: number[] = [];
   private filtersElement!: CardFiltersComponent;
@@ -39,6 +40,11 @@ class SettingsPage extends Page {
     this.filtersElement = сontainer.querySelector('card-filters') as CardFiltersComponent;
     this.listElement = сontainer.querySelector('card-list') as CardListComponent;
 
+    const defaultElement = сontainer.querySelector('.reset') as HTMLElement;
+
+    defaultElement.addEventListener('click',()=>{
+    console.log(localStorage.length);
+    });
     this.filtersElement.addEventListener('filtersUpdated', (e) =>
       this.filtersUpdateHandler((e as CustomEvent).detail.filterValues)
     );
@@ -47,8 +53,11 @@ class SettingsPage extends Page {
 
     this.filtersElement.setDefaulFilterValues(storedFilterValues);
     removeContainer(rootNode);
+
     return this.container;
   }
+
+
 
   private filtersUpdateHandler(filterValues: Partial<AppliedFiltersModel>): void {
     const comparators = {
@@ -63,9 +72,10 @@ class SettingsPage extends Page {
 
     this.listElement.updateCardList(sortedCards);
     this.saveFilterValuesToLocalstorage(filterValues);
+
   }
 
-  private activeToyChangeHandler({ cardNum, isActive }: { cardNum: number; isActive: boolean }): void {
+  private activeToyChangeHandler({ cardNum, isActive }: { cardNum: number; isActive: boolean }) {
     if (isActive) {
       this.activeCards.push(cardNum);
     } else {
@@ -76,7 +86,11 @@ class SettingsPage extends Page {
       }
     }
 
-    console.log(this.activeCards);
+    const activeToys = document.querySelector('.count-toys') as HTMLElement;
+    activeToys.innerHTML=this.activeCards.length.toString();
+
+    this.saveCountToys(this.activeCards);
+
   }
 
   private filterCard(card: Card, appliedFilters: Partial<AppliedFiltersModel>): boolean {
@@ -120,8 +134,21 @@ class SettingsPage extends Page {
 
   private loadFilterValuesFromLocalstorage() {
     const filterValues = localStorage.getItem('filterValues');
-    return filterValues ? JSON.parse(filterValues) : null;
+    const object = filterValues ? JSON.parse(filterValues) : null;
+    return object;
+  }
+
+  private saveCountToys(count:number []){
+    localStorage.setItem('count', JSON.stringify(count));
+  }
+
+  private loadCountSave(){
+    const countToys = localStorage.getItem('count');
+    const object = countToys ? JSON.parse(countToys) : null;
+    return object;
   }
 }
 
 export default SettingsPage;
+
+

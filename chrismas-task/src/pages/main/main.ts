@@ -1,5 +1,5 @@
 import Page from '../../core/templates/page'
-import { changeVisibility, removeContainer } from '../../utils'
+import { changeVisibility, removeContainer, changeSnow } from '../../utils'
 
 class MainPage extends Page {
 
@@ -27,8 +27,11 @@ class MainPage extends Page {
       const mainHomeContainer=document.querySelector('.main-container') as HTMLElement;
       mainHomeContainer.innerHTML=''});
     removeContainer(rootNode);
+
     return this.container;
   }
+
+
 
 }
 

@@ -14,6 +14,7 @@ export default class CardListComponent extends HTMLElement {
 
     this.innerHTML = '';
     this.append(toysContainer);
+
   }
 
   private createCardElement(card: Card): HTMLElement {
@@ -50,4 +51,5 @@ export default class CardListComponent extends HTMLElement {
 
     this.dispatchEvent(new CustomEvent('activeToyChange', { detail }));
   }
+
 }
