@@ -1,5 +1,6 @@
 import {
   AppliedFiltersModel,
+  AppliedFilterValues,
   ElementNoUiSlider,
   FilterElements,
   FilterNames,
@@ -38,17 +39,25 @@ export default class CardFiltersComponent extends HTMLElement {
     },
   };
 
-  private readonly defaultFilterValues = { sort: SortFilterValues.az };
+  private readonly defaultFilterValues: AppliedFiltersModel = {
+    color: [],
+    count: [1, 12],
+    favorite: false,
+    name: '',
+    shape: [],
+    size: [],
+    sort: SortFilterValues.az,
+    year: [1940, 2020],
+  };
 
-  public filterValues: Partial<AppliedFiltersModel> = this.defaultFilterValues;
+  public filterValues: AppliedFiltersModel = this.defaultFilterValues;
 
   private filterElements = {} as FilterElements;
 
   public connectedCallback() {
     this.innerHTML = cardFiltersTemplate;
 
-    const name = this.querySelector('.search-element-container input') as HTMLElement;
-
+    const name = document.querySelector('.search-element-container input') as HTMLInputElement;
     const shape = Array.from(this.querySelectorAll('.shape button')) as HTMLElement[];
     const color = Array.from(this.querySelectorAll('.color button')) as HTMLElement[];
     const size = Array.from(this.querySelectorAll('.size button')) as HTMLElement[];
@@ -60,13 +69,66 @@ export default class CardFiltersComponent extends HTMLElement {
     this.filterElements = { name, count, year, shape, color, size, favorite, sort };
 
     this.addEventListener('click', this.filterClickHandler.bind(this));
+    name.addEventListener('change', this.nameChangeHandler.bind(this));
     count.noUiSlider.on('update', (e) => this.sliderSlideHandler(e, 'count'));
     year.noUiSlider.on('update', (e) => this.sliderSlideHandler(e, 'year'));
   }
 
-  public setDefaulFilterValues(storedFilterValues: Partial<AppliedFiltersModel> | null): void {
-    this.filterValues = storedFilterValues || this.defaultFilterValues;
+  public initialize(storedFilterValues: Partial<AppliedFiltersModel> | null): void {
+    if (storedFilterValues) {
+      this.filterValues = {...this.defaultFilterValues, ...storedFilterValues };
+    } else {
+      this.filterValues = this.defaultFilterValues;
+    }
+
+    this.applyFiltersValues();
     this.emitEvent();
+  }
+
+  private applyFiltersValues() {
+    Object.entries(this.filterValues).forEach(([key, value]) => this.applyFilterValue(key as FilterNames, value));
+  }
+
+  private applyFilterValue(key: FilterNames, value: AppliedFilterValues) {
+    const applyColorFilter = () => {
+      const filterElements = this.filterElements[key] as HTMLElement[];
+      const filterValues = value as string[];
+
+      filterElements.forEach((element: HTMLElement) => {
+        if (filterValues.includes(element.getAttribute('data-filter') as string)) {
+          element.classList.add('active');
+        } else {
+          element.classList.remove('active');
+        }
+      });
+    };
+
+    const applySliderValues = () => {
+      const filterElement = this.filterElements[key] as HTMLElement & ElementNoUiSlider;
+      const filterValues = value as string[];
+
+      console.log(key, filterElement, filterValues)
+
+      filterElement.noUiSlider.set(filterValues);
+    }
+
+    switch(key) {
+      case 'shape':
+      case 'color':
+      case 'size':
+        applyColorFilter();
+        break;
+      case 'favorite':
+        this.filterElements.favorite.checked = value as boolean;
+        break;
+      case 'count':
+      case 'year':
+        applySliderValues();
+        break;
+      case 'name':
+        this.filterElements.name.value = value as string;
+        break;
+    }
   }
 
   private sliderSlideHandler(values: string[], filterKey: FilterNames): void {
@@ -96,6 +158,8 @@ export default class CardFiltersComponent extends HTMLElement {
         this.filterValues = { ...this.filterValues, favorite: favorite.checked };
         this.emitEvent();
       }
+    } else if (target.classList.contains('reset')) {
+      this.resetToDefaultsHandler();
     }
   }
 
@@ -131,5 +195,18 @@ export default class CardFiltersComponent extends HTMLElement {
     (yearSlider as HTMLElement & ElementNoUiSlider).noUiSlider.on('update', (e) => updateLables(e));
 
     return yearSlider as HTMLElement & ElementNoUiSlider;
+  }
+
+  private resetToDefaultsHandler() {
+    this.filterValues = this.defaultFilterValues;
+    localStorage.removeItem('activeToysCount');
+    const ballToy=document.querySelector('.count-toys') as HTMLElement;
+    ballToy.innerHTML="0";
+    this.applyFiltersValues();
+  }
+
+  private nameChangeHandler(e: Event): void {
+    this.filterValues.name = (e.target as HTMLInputElement).value;
+    this.emitEvent();
   }
 }

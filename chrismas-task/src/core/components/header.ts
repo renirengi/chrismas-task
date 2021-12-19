@@ -1,6 +1,7 @@
 import Component from '../templates/components';
 import { PageIds } from '../../pages/app/app';
 
+
 const Buttons = [
   {
     id: PageIds.MainPage,
@@ -38,8 +39,6 @@ class Header extends Component {
     this.container.append(this.createSearchElement());
     this.container.append(this.createToysElement());
 
-    const rootNode = document.querySelector('.main-container') as HTMLElement;
-    console.log(rootNode)
   }
 
   render() {
@@ -64,7 +63,7 @@ class Header extends Component {
     const searchElementContainer:HTMLElement = document.createElement('div');
     searchElementContainer.classList.add('search-element-container');
     const createSearchElementTemplate=`
-    <input type="text" id="input" autocomplete="off">
+    <input type="text" id="input" class="input input-search" autocomplete="off">
     `
     searchElementContainer.innerHTML=createSearchElementTemplate;
     return searchElementContainer;

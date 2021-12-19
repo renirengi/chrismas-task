@@ -3,21 +3,19 @@ import { changeVisibility, removeContainer, changeSnow } from '../../utils'
 
 class MainPage extends Page {
 
-  /*static TextObject = {
-    MainTitle: 'Main Page',
-  };*/
-
-  constructor(id:string) {
+   constructor(id:string) {
     super(id);
   }
 
 
   render() {
-    changeVisibility('ДОМОЙ')
+     changeVisibility('ДОМОЙ')
     const rootNode = document.querySelector('.main-container') as HTMLElement;
     const template = `
     <div class="main-home-container">
+    <div class="title-container">
     <h1>Помогите бабушке нарядить ёлку</h1>
+    </div>
     <a href= "#settings-page" class="main-title">Начать</a>
     </div>
     `
@@ -27,6 +25,8 @@ class MainPage extends Page {
       const mainHomeContainer=document.querySelector('.main-container') as HTMLElement;
       mainHomeContainer.innerHTML=''});
     removeContainer(rootNode);
+    const node = document.querySelector('body') as HTMLElement;
+    changeSnow(node);
 
     return this.container;
   }

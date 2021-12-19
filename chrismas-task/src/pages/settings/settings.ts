@@ -12,11 +12,11 @@ import data from '../../toys';
 import Page from '../../core/templates/page';
 
 class SettingsPage extends Page {
-
   private cards: Card[] = [];
   private activeCards: number[] = [];
   private filtersElement!: CardFiltersComponent;
   private listElement!: CardListComponent;
+  private activeToys!: HTMLElement;
 
   constructor(id: string) {
     super(id);
@@ -39,25 +39,19 @@ class SettingsPage extends Page {
 
     this.filtersElement = сontainer.querySelector('card-filters') as CardFiltersComponent;
     this.listElement = сontainer.querySelector('card-list') as CardListComponent;
+    this.activeToys = document.querySelector('.count-toys') as HTMLElement;
 
-    const defaultElement = сontainer.querySelector('.reset') as HTMLElement;
-
-    defaultElement.addEventListener('click',()=>{
-    console.log(localStorage.length);
-    });
     this.filtersElement.addEventListener('filtersUpdated', (e) =>
       this.filtersUpdateHandler((e as CustomEvent).detail.filterValues)
     );
 
     this.listElement.addEventListener('activeToyChange', (e) => this.activeToyChangeHandler((e as CustomEvent).detail));
 
-    this.filtersElement.setDefaulFilterValues(storedFilterValues);
+    this.filtersElement.initialize(storedFilterValues);
+    this.updateActiveToy(this.loadCountSave());
     removeContainer(rootNode);
-
-    return this.container;
+     return this.container;
   }
-
-
 
   private filtersUpdateHandler(filterValues: Partial<AppliedFiltersModel>): void {
     const comparators = {
@@ -86,11 +80,13 @@ class SettingsPage extends Page {
       }
     }
 
-    const activeToys = document.querySelector('.count-toys') as HTMLElement;
-    activeToys.innerHTML=this.activeCards.length.toString();
+    this.updateActiveToy(this.activeCards.length);
 
     this.saveCountToys(this.activeCards);
+  }
 
+  private updateActiveToy(number: number) {
+    this.activeToys.innerHTML = number.toString();
   }
 
   private filterCard(card: Card, appliedFilters: Partial<AppliedFiltersModel>): boolean {
@@ -105,9 +101,11 @@ class SettingsPage extends Page {
       if (isNil(filterValue) || isNil(cardValue) || isEmptyArray()) {
         return true;
       } else if (isNameFilter()) {
-        return (cardValue as string).includes(filterValue as string);
+        return Object.values(card).some((item) => {
+          return item.toString().toLowerCase().includes((filterValue as string).toLowerCase());
+        });
       } else if (isFavoritesFilter()) {
-        return (filterValue as boolean) && (cardValue as boolean);
+        return !filterValue ? true : cardValue as boolean;
       } else if (isNumberFilter()) {
         const [start, end] = filterValue as number[];
 
@@ -132,23 +130,22 @@ class SettingsPage extends Page {
     localStorage.setItem('filterValues', JSON.stringify(filterValues));
   }
 
-  private loadFilterValuesFromLocalstorage() {
+  private loadFilterValuesFromLocalstorage(): Partial<AppliedFiltersModel> | null  {
     const filterValues = localStorage.getItem('filterValues');
-    const object = filterValues ? JSON.parse(filterValues) : null;
-    return object;
+
+    return filterValues ? JSON.parse(filterValues) : null;
   }
 
-  private saveCountToys(count:number []){
-    localStorage.setItem('count', JSON.stringify(count));
+  private saveCountToys(count: number[]) {
+    localStorage.setItem('activeToysCount', JSON.stringify(count));
   }
 
-  private loadCountSave(){
-    const countToys = localStorage.getItem('count');
-    const object = countToys ? JSON.parse(countToys) : null;
-    return object;
+  private loadCountSave(): number {
+    const countToys = localStorage.getItem('activeToysCount');
+
+    return countToys ? JSON.parse(countToys).length : 0;
   }
+
 }
 
 export default SettingsPage;
-
-

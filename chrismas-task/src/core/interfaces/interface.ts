@@ -31,10 +31,14 @@ export type FilterNames = 'name' | 'count' | 'year' | 'shape' | 'color' | 'size'
 
 export type AppliedFilterValues = string | string[] | number[] | boolean | SortFilterValues;
 
-export type ElementNoUiSlider = { noUiSlider: { on: (a: string, b: (e: string[]) => void) => void } };
+export type ElementNoUiSlider = {
+  noUiSlider: {
+    on: (a: string, b: (e: string[]) => void) => void,
+    set: (a: string[]) => void
+  }};
 
 export interface FilterElements {
-  name: HTMLElement;
+  name: HTMLInputElement;
   count: HTMLElement & ElementNoUiSlider;
   year: HTMLElement & ElementNoUiSlider;
   shape: HTMLElement[],

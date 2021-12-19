@@ -65,6 +65,6 @@ class App {
   }
 }
 
-// Main, Settings, Game
+
 
 export default App;

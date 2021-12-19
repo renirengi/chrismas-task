@@ -46,6 +46,8 @@ function removeSnow(){
  const item2= document.querySelector('.snow2') as HTMLElement;
  item1.parentNode?.removeChild(item1);
  item2.parentNode?.removeChild(item2);
-
-
 }
+
+
+
+

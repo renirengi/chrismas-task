@@ -38,13 +38,23 @@ background-color: black;
 .header-container{
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   align-items: center;
+}
+
+.link-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 10%;
+
 }
 
 .svg-element-container{
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
-  width: 10%;
+  width: 25%;
 }
 
 .toy-element-container{
@@ -59,6 +69,23 @@ background-color: black;
   background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/ball.svg")
 }
 
+.input{
+  position:relative;
+  background-color: transparent;
+  width: 100%;
+  height: 4vh;
+  border: 2px solid #3FBFAF;
+  color: white;
+
+}
+
+.input-search::before{
+  width: 1rem;
+  background-image: url("https://github.com/rolling-scopes-school/stage1-tasks/blob/christmas-task/assets/svg/search.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .count-toys{
   position: absolute;
   z-index: 100;
@@ -69,7 +96,7 @@ background-color: black;
   height: 30px;
   top: 30%;
   left: 17%;
-  font-size: 1.5vw;
+  font-size: 25px;
 }
 
 #music{
@@ -123,10 +150,15 @@ main{
   height: 80vh;
 }
 
-h1{
+.title-container{
   position: absolute;
-  top: 35vh;
-  left: 25vw;
+  width:100%;
+  top: 30vh;
+  display: flex;
+  justify-content: center;
+}
+
+h1{
   text-transform: uppercase;
   color: white;
   font-size: 6vh;
@@ -138,7 +170,7 @@ h1{
   display: inline-block;
   width: 15vw;
   line-height: 8vh;
-  top: 60vh;
+  top: 50vh;
   left: 40vw;
   border: 2px solid #3FBFAF;
   background-color: black;
@@ -163,10 +195,12 @@ h1{
   margin: 3% 5%;
   display:flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   width: 90%;
   color: white;
   font-size: 20px;
   border: 2px solid #3FBFAF;
+  border-radius: 30px;
   background-color: black;
 }
 
@@ -174,6 +208,7 @@ h1{
 .range,
 .sort{
   margin: 3% 3%;
+  width: 280px;
   display: flex;
   flex-direction: column;
 }
@@ -230,6 +265,25 @@ h1{
 .toy-container.activeToy .tape,
 .active{
    -webkit-filter: invert(65%) sepia(15%) saturate(806%) hue-rotate(356deg) brightness(81%) contrast(80%);
+}
+
+.white.active,
+.yellow.active,
+.red.active,
+.green.active,
+.blue.active{
+  -webkit-filter:none;
+}
+
+.white.active::after,
+.yellow.active::after,
+.red.active::after,
+.green.active::after,
+.blue.active::after{
+  position: absolute;
+  z-index: 100;
+  content: '\2713';
+  padding-bottom: 2px;
 }
 
 .ball{
@@ -339,18 +393,36 @@ h1{
 }
 
 .sort-select{
-  height: 3vh;
+  position: relative;
+  height: 8vh;
+  width: 90%;
+  background-color: white;
+  border: 2px solid #3FBFAF;
+   font-size: 20px;
 }
+
+.reset{
+  height: 8vh;
+  width: 90%;
+  outline: 0;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: 0.3s;
+  background-color: transparent;
+  border: 2px solid #3FBFAF;
+  color: white;
+  font-size: 20px;
+}
+
+.reset:hover{
+  background-color: #9d8665;
+}
+
 
 .sort{
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.reset{
-  width: 100%;
-  height: 4vh;
 }
 
  /*Toys*/
@@ -375,11 +447,15 @@ h1{
   display: flex;
   flex-direction: column;
   align-items: center;
+  transform-style: preserve-3d;
+  border-radius: 30px;
+  padding: 0rem 5rem;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2), 0px 0px 50px rgba(0, 0, 0, 0.2);
 
 }
 
 h5{
-  margin:3% 0;
+  margin:3% 3%;
   display: block;
   text-transform: uppercase;
   color: #3FBFAF
@@ -404,5 +480,63 @@ h5{
   display: flex;
   justify-content: space-evenly;
 }
+
+
+@media (max-width: 1000px){
+  header,
+  footer{
+  height: 20vh;
+}
+
+h1{
+  font-size: 5vh;
+  margin: 0 10%;
+}
+
+.main-title{
+  width: 25vw;
+}
+}
+
+@media (max-width: 900px){
+
+  .title-container{
+    top: 20vh;
+  }
+
+.main-title{
+  width: 35vw;
+}
+}
+
+@media (max-width: 800px){
+  .main-title{
+    width: 35vw;
+  }
+  }
+
+  @media (max-width: 700px){
+    .main-title{
+      width: 35vw;
+    }
+    }
+
+    @media (max-width: 600px){
+
+      .main-title{
+        width: 35vw;
+        font-size: 2vh;
+      }
+      }
+
+      @media (max-width: 300px){
+
+
+        .main-title{
+          width: 35vw;
+          font-size: 25px;
+        }
+        }
+
 
 

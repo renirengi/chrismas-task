@@ -22,15 +22,15 @@ export default class CardListComponent extends HTMLElement {
     const imgIndex = 1 + num;
     const url = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/toys/${imgIndex}.png`;
     const toyCardTemplate = `
-        <h5>${name}</h5>
+        <h5 class="toy-name">${name}</h5>
         <img src="${url}" alt="${name}"/>
-        <p>Количество: ${count}</p>
-        <p>Год покупки: ${year}</p>
+        <p class="c-number">Количество: ${count}</p>
+        <p class="y-number">Год покупки: ${year}</p>
         <p class="shape">Форма игрушки: ${shape}</p>
         <p class="color">Цвет игрушки: ${color}</p>
-        <p class=""size">Размер игрушки: ${size}</p>
+        <p class="size">Размер игрушки: ${size}</p>
         <div class="tape"></div>
-        <p>Любимая: ${favorite === true ? 'да' : 'нет'}</p>
+        <p div class="favorite">Любимая: ${favorite === true ? 'да' : 'нет'}</p>
         </div>
       `;
     const cardElement: HTMLElement = document.createElement('div');
