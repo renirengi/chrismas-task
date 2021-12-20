@@ -58,6 +58,7 @@ export default class CardFiltersComponent extends HTMLElement {
     this.innerHTML = cardFiltersTemplate;
 
     const name = document.querySelector('.search-element-container input') as HTMLInputElement;
+    const del = document.querySelector('.delete') as HTMLInputElement;
     const shape = Array.from(this.querySelectorAll('.shape button')) as HTMLElement[];
     const color = Array.from(this.querySelectorAll('.color button')) as HTMLElement[];
     const size = Array.from(this.querySelectorAll('.size button')) as HTMLElement[];
@@ -69,7 +70,12 @@ export default class CardFiltersComponent extends HTMLElement {
     this.filterElements = { name, count, year, shape, color, size, favorite, sort };
 
     this.addEventListener('click', this.filterClickHandler.bind(this));
-    name.addEventListener('change', this.nameChangeHandler.bind(this));
+    name.addEventListener('input', this.nameChangeHandler.bind(this));
+    del.addEventListener('click', () => {
+      name.value = '';
+      this.filterValues.name = '';
+      this.emitEvent();
+    });
     count.noUiSlider.on('update', (e) => this.sliderSlideHandler(e, 'count'));
     year.noUiSlider.on('update', (e) => this.sliderSlideHandler(e, 'year'));
   }

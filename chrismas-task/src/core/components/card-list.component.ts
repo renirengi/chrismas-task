@@ -10,7 +10,23 @@ export default class CardListComponent extends HTMLElement {
     const cardElements = cards.map((card) => this.createCardElement(card));
 
     toysContainer.classList.add('toys-container');
+
+    if(cardElements.length==0){
+      const sorryContainer= document.createElement('div');
+      sorryContainer.classList.add('sorry-container');
+      const sorry=document.createElement('h5');
+      sorry.textContent="Извините, совпадений не обнаружено!"
+      const sorryImg=document.createElement('img');
+      sorryImg.setAttribute('src','https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/6.png');
+      sorryImg.setAttribute('alt','0');
+      sorryContainer.append(sorry);
+      sorryContainer.append(sorryImg);
+
+      toysContainer.append(sorryContainer);
+    }
+    else{
     toysContainer.append(...cardElements);
+    }
 
     this.innerHTML = '';
     this.append(toysContainer);

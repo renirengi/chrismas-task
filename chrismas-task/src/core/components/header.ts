@@ -64,6 +64,7 @@ class Header extends Component {
     searchElementContainer.classList.add('search-element-container');
     const createSearchElementTemplate=`
     <input type="text" id="input" class="input input-search" autocomplete="off">
+    <div class="delete">&#10060</div>
     `
     searchElementContainer.innerHTML=createSearchElementTemplate;
     return searchElementContainer;
