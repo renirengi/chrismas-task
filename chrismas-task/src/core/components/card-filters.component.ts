@@ -113,8 +113,6 @@ export default class CardFiltersComponent extends HTMLElement {
       const filterElement = this.filterElements[key] as HTMLElement & ElementNoUiSlider;
       const filterValues = value as string[];
 
-      console.log(key, filterElement, filterValues)
-
       filterElement.noUiSlider.set(filterValues);
     }
 

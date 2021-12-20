@@ -13,7 +13,7 @@ import Page from '../../core/templates/page';
 
 class SettingsPage extends Page {
   private cards: Card[] = [];
-  private activeCards: number[] = [];
+   activeCards: number[] = [];
   private filtersElement!: CardFiltersComponent;
   private listElement!: CardListComponent;
   private activeToys!: HTMLElement;
@@ -45,7 +45,9 @@ class SettingsPage extends Page {
       this.filtersUpdateHandler((e as CustomEvent).detail.filterValues)
     );
 
-    this.listElement.addEventListener('activeToyChange', (e) => this.activeToyChangeHandler((e as CustomEvent).detail));
+    this.listElement.addEventListener('activeToyChange', (e) => {
+
+      this.activeToyChangeHandler((e as CustomEvent).detail)});
 
     this.filtersElement.initialize(storedFilterValues);
     this.updateActiveToy(this.loadCountSave());
@@ -70,9 +72,11 @@ class SettingsPage extends Page {
   }
 
   private activeToyChangeHandler({ cardNum, isActive }: { cardNum: number; isActive: boolean }) {
-    if (isActive) {
+    if (isActive && this.activeCards.length<=20) {
       this.activeCards.push(cardNum);
-    } else {
+    }
+    else {
+
       const index = this.activeCards.indexOf(cardNum);
 
       if (index > -1) {
