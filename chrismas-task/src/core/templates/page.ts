@@ -13,8 +13,7 @@ abstract class Page {
   }
 
   clearContainer(){
-    console.log(document.querySelector('.content-container'));
-    (document.querySelector('.content-container') as HTMLElement).remove;
+     (document.querySelector('.content-container') as HTMLElement).remove;
 
   }
 }

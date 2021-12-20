@@ -1,5 +1,6 @@
 import { Card } from '../interfaces/interface';
 
+
 export default class CardListComponent extends HTMLElement {
   public connectedCallback() {
     this.innerHTML = 'Загрузка...';
@@ -7,7 +8,13 @@ export default class CardListComponent extends HTMLElement {
 
   public updateCardList(cards: Card[]): void {
     const toysContainer: HTMLElement = document.createElement('div');
-    const cardElements = cards.map((card) => this.createCardElement(card));
+    const cardElements = cards.map((card) => this.createCardElement(card,));
+    const note = cards.forEach((el)=>{
+      if(localStorage.activeToysCount.includes(el.num)){
+        console.log(el);
+      }
+    });
+
 
     toysContainer.classList.add('toys-container');
 
@@ -73,7 +80,17 @@ export default class CardListComponent extends HTMLElement {
   }
 
   private activeToyClickHandler(cardNum: number, target: HTMLElement) {
-    target.classList.toggle('activeToy');
+    const listActiveToys = document.querySelectorAll('.activeToy');
+    if(!target.classList.contains('activeToy')){
+      if(listActiveToys.length<=19){
+        target.classList.add('activeToy');}
+    else{
+      alert("Извините, слоты заполнены");
+    }
+  }
+   else{
+     target.classList.remove('activeToy');
+   }
 
     const isActive = target.classList.contains('activeToy');
     const detail = { cardNum, isActive };
