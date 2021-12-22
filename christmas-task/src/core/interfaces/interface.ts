@@ -47,3 +47,39 @@ export interface FilterElements {
   favorite: HTMLInputElement;
   sort: HTMLSelectElement;
 }
+
+export interface TreeImageElements {
+  tree: string[];
+}
+
+export interface BackgroundImageElements {
+  background: string[];
+}
+
+export enum LightropeElements{
+  multicolor = "multicolor",
+  red = "red",
+  blue = "blue",
+  yellow = "yellow",
+  green = "green"
+}
+
+
+export interface ChristmasTree {
+  background: TreeImageElements;
+  tree: TreeImageElements;
+  light: BackgroundImageElements;
+  status: boolean;
+ }
+
+export interface UsedElements{
+  background: HTMLElement[];
+  tree: HTMLElement[];
+  light: HTMLElement[];
+  status: HTMLElement;
+}
+
+export type BackNames = 'tree' | 'background' | 'light' | 'status';
+
+export type BackNamesValues = string | string | LightropeElements | boolean;
+

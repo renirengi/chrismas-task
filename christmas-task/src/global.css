@@ -113,11 +113,11 @@ background-color: black;
   font-size: 25px;
 }
 
-#music{
+.music-button{
   background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/audio.svg");
 }
 
-#snow{
+.snow-button{
   background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/snow.svg");
 }
 
@@ -130,6 +130,10 @@ background-color: black;
 main{
  position: relative;
  background-image: url("https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg");
+ height: auto;
+ background-repeat:no-repeat;
+ background-size:100% 100%;
+ background-size: cover;
 }
 
 .snow1{
@@ -242,8 +246,8 @@ h1{
 }
 
 .shape button,
-#music,
-#snow{
+.music-button,
+.snow-button{
   width: 32px;
   height: 32px;
   background-size: 32px 32px;
@@ -262,8 +266,8 @@ h1{
 .color button:hover,
 .size button:hover,
 .delete:hover,
-#music:hover,
-#snow:hover{
+.music-button:hover,
+.snow-button:hover{
   opacity: 1;
 }
 
@@ -694,6 +698,186 @@ h5{
   height: 7vh;
   width: auto;
 }
+
+.game-container{
+  margin:0;
+  display: flex;
+  width:100%;
+  height: auto;
+  color: white;
+  flex-wrap: wrap;
+}
+
+h3{
+  margin: 5% auto;
+  text-transform: uppercase;
+  color: #3FBFAF;
+  text-shadow: 1px 1px 2px black, 0 0 1em black;
+  font-size: 25px;
+}
+
+
+.left-side-menu,
+.right-side-menu,
+.tree-game-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23vw;
+}
+
+.snow-svg-buttons{
+  height: 10vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+}
+
+.trees,
+.backgrounds,
+.lightrope-container{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 90%;
+  margin: 5%;
+}
+
+.trees-container,
+.backgrounds-container,
+.light-container{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.tree-container{
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  height: auto;
+  padding: 2%;
+  margin: 2%;
+  border: 2px solid #3FBFAF;
+  border-radius: 30px;
+  background-color: black;
+}
+
+.tree-container img{
+  width: 90px;
+  height: auto;
+}
+
+.background-container{
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  margin: 2%;
+}
+
+.background-container img{
+  width: 100px;
+  height: 100px;
+  border-radius: 30px;
+  border: 2px solid #3FBFAF;
+}
+
+.multicolor-light,
+.red-light,
+.blue-light,
+.yellow-light,
+.green-light{
+  width: 30px;
+  height: 30px;
+  margin: 5%;
+  border-radius: 30px;
+  border:2px solid white;
+}
+
+.multicolor-light{
+  background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet);
+}
+
+.red-light{
+  background: red;
+}
+
+.blue-light{
+  background: blue;
+}
+
+.yellow-light{
+  background: yellow;
+}
+
+.green-light{
+  background: green;
+}
+
+.btn-container{
+   margin: 1% auto;
+   width: 72px; /* ширина */
+  height: 38px; /* высота */
+}
+
+.switch-btn {
+  display: inline-block;
+  width: 72px; /* ширина */
+  height: 38px; /* высота */
+  border-radius: 19px; /* радиус скругления */
+  background: #bfbfbf; /* цвет фона */
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition-duration: 300ms; /* анимация */
+}
+.switch-btn::after {
+  content: "";
+  height: 32px; /* высота кнопки */
+  width: 32px; /* ширина кнопки */
+  border-radius: 17px;
+  background: #fff; /* цвет кнопки */
+  top: 3px; /* положение кнопки по вертикали относительно основы */
+  left: 3px; /* положение кнопки по горизонтали относительно основы */
+  transition-duration: 300ms; /* анимация */
+  position: absolute;
+  z-index: 1;
+}
+.switch-on {
+  background: #3FBFAF;
+}
+
+.switch-on::after {
+  left: 37px;
+}
+
+.tree-game-container{
+  border: 3px solid #3FBFAF;
+  border-radius: 30px;
+  margin: 5% 1%;
+  width: 50vw;
+}
+
+.background-game-background{
+  position: relative;
+  border-radius: 30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.tree-game-background{
+  position:relative;
+  z-index: 100;
+}
+
 
 @media (max-width: 1000px){
   header,

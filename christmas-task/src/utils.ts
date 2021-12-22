@@ -20,7 +20,7 @@ export function removeContainer(container:HTMLElement){
   }
 
 export function changeSnow(container:HTMLElement){
-  const snowButton = document.getElementById('snow') as HTMLElement;
+  const snowButton = document.querySelector('.snow-button') as HTMLElement;
   snowButton.addEventListener("click", () => {
     if(snowButton.classList.contains('snowflake')){
       removeSnow();
