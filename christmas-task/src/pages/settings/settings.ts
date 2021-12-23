@@ -4,7 +4,7 @@ import {
   FilterNames,
   AppliedFilterValues,
   SortFilterValues,
-} from '../../core/interfaces/interface';
+} from '../../core/interfaces';
 import { changeVisibility, isNil, removeContainer } from '../../utils';
 import CardFiltersComponent from '../../core/components/card-filters.component';
 import CardListComponent from '../../core/components/card-list.component';
@@ -64,6 +64,7 @@ class SettingsPage extends Page {
       [SortFilterValues.min]: (a: Card, b: Card) => b.count - a.count,
     };
     const sortComparator = comparators[filterValues.sort || SortFilterValues.az];
+
     const filteredCards = this.cards.filter((card: Card) => this.filterCard(card, filterValues));
     const sortedCards = filteredCards.sort(sortComparator);
 
