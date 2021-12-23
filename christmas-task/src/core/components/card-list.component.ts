@@ -1,4 +1,4 @@
-import { Card } from '../interfaces/interface';
+import { Card } from '../interfaces';
 
 export default class CardListComponent extends HTMLElement {
   public connectedCallback() {

@@ -5,7 +5,7 @@ import {
   FilterElements,
   FilterNames,
   SortFilterValues,
-} from '../interfaces/interface';
+} from '../interfaces';
 import { cardFiltersTemplate } from './card-filters.component.template';
 import noUiSlider, { Options } from 'nouislider';
 
@@ -99,7 +99,7 @@ export default class CardFiltersComponent extends HTMLElement {
     const applyColorFilter = () => {
       const filterElements = this.filterElements[key] as HTMLElement[];
       const filterValues = value as string[];
-
+      console.log(filterElements,filterValues)
       filterElements.forEach((element: HTMLElement) => {
         if (filterValues.includes(element.getAttribute('data-filter') as string)) {
           element.classList.add('active');
@@ -177,7 +177,6 @@ export default class CardFiltersComponent extends HTMLElement {
     const filterValue = filterElements.reduce(reducer, [] as string[]);
 
     this.filterValues = { ...this.filterValues, [filterKey]: filterValue };
-
     this.emitEvent();
   }
 

@@ -747,7 +747,7 @@ h3{
 
 .trees-container,
 .backgrounds-container,
-.light-container{
+.lights-container{
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -765,23 +765,13 @@ h3{
   background-color: black;
 }
 
-.tree-container img{
-  width: 90px;
-  height: auto;
-}
-
 .background-container{
   display: flex;
   justify-content: center;
   width: 100px;
   height: 100px;
   margin: 2%;
-}
-
-.background-container img{
-  width: 100px;
-  height: 100px;
-  border-radius: 30px;
+   border-radius: 30px;
   border: 2px solid #3FBFAF;
 }
 
@@ -858,14 +848,19 @@ h3{
 }
 
 .tree-game-container{
+  width:50vw;
+  margin: 5% 1%;
+}
+
+.tree-container-background{
   border: 3px solid #3FBFAF;
   border-radius: 30px;
-  margin: 5% 1%;
-  width: 50vw;
+  width: 100%;
+  height: 100vh;
 }
 
 .background-game-background{
-  position: relative;
+  position:relative;
   border-radius: 30px;
   background-repeat: no-repeat;
   background-size: contain;
@@ -873,9 +868,10 @@ h3{
   height: 100%;
 }
 
-.tree-game-background{
-  position:relative;
-  z-index: 100;
+.tree-card {
+  position:absolute;
+  margin-left: -40vw;
+  z-index: 400;
 }
 
 
