@@ -1,3 +1,12 @@
+export interface LighropeModel {
+  colorName: string;
+  background?: string;
+  animation?: () => void;
+  enabled: boolean;
+}
+
+export type ConfigLightropeModel = Pick<LighropeModel, 'colorName' | 'animation' | 'background'>;
+
 export interface TreeImageElements {
   tree: string[];
 }
