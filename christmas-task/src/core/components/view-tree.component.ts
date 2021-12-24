@@ -35,11 +35,4 @@ export class ViewTreeComponent extends HTMLElement {
     console.log('Do something', rope);
   }
 
-  public setViewValue(){
-    if(localStorage.background){
-      const url = this.loadViewValuesFromLocalstorage('background') as string;
-      this.viewTreeElement.updateBackground(url);
-    }
-  }
-
 }

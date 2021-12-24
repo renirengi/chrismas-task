@@ -10,6 +10,7 @@ const treePaletteTemplate = `
 
 export class TreePaletteComponent extends HTMLElement {
   public connectedCallback(): void {
+    console.log(this);
     this.innerHTML = treePaletteTemplate;
     this.querySelector('.trees-container')?.append(...this.getTreesList(trees));
   }

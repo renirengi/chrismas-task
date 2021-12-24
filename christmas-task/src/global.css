@@ -748,7 +748,8 @@ h3 {
 
 .trees,
 .backgrounds,
-.lightrope-container {
+.lightrope-container,
+.game-toy-container {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -937,4 +938,29 @@ view-tree div.christmas-background {
   background-repeat: no-repeat;
   background-size: contain;
   margin: 0 auto;
+}
+/*Контейнер с игрушками для игры*/
+.game-toy-container{
+  flex-direction: row;
+}
+
+.toy-picture-container{
+  width: 50px;
+  height: 60px;
+  margin: 2%;
+  border-radius: 10px;
+  border: 2px solid #3fbfaf;
+}
+.toy-picture-container img{
+  width: 50px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: move;
+  position: absolute;
+  z-index: 1000;
+}
+
+.selected {
+  opacity: 0.6;
 }

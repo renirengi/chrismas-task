@@ -99,7 +99,6 @@ export default class CardFiltersComponent extends HTMLElement {
     const applyColorFilter = () => {
       const filterElements = this.filterElements[key] as HTMLElement[];
       const filterValues = value as string[];
-      console.log(filterElements,filterValues)
       filterElements.forEach((element: HTMLElement) => {
         if (filterValues.includes(element.getAttribute('data-filter') as string)) {
           element.classList.add('active');

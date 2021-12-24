@@ -22,18 +22,11 @@ export interface AppliedBackNamesModel {
   status: boolean;
 }
 
-/*export enum LightropeElements{
-  multicolor = "multicolor",
-  red = "red",
-  blue = "blue",
-  yellow = "yellow",
-  green = "green"
-}*/
-
 export interface LightropeElements{
  light: string[];
 }
 
+/*
 export interface ChristmasTree {
   background: TreeImageElements;
   tree: TreeImageElements;
@@ -50,5 +43,5 @@ export interface UsedElements{
 
 export type BackNames = 'tree' | 'background' | 'light' | 'status';
 
-export type BackNamesValues = string | string | string | boolean;
+export type BackNamesValues = string | string | string | boolean;*/
 

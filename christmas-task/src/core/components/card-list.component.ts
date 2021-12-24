@@ -6,6 +6,7 @@ export default class CardListComponent extends HTMLElement {
   }
 
   public updateCardList(cards: Card[], activeToys: number[]): void {
+    console.log(cards);
     const toysContainer: HTMLElement = document.createElement('div');
     const cardElements = cards.map((card) => this.createCardElement(card, activeToys));
 

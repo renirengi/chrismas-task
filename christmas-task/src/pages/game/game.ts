@@ -1,7 +1,8 @@
-//import { backgrounds } from '../../core/components/game-palettes/game-palettes-constants';
+import { backgrounds } from '../../core/components/game-palettes/game-palettes-constants';
 import { ViewTreeComponent } from '../../core/components/view-tree.component';
 import Page from '../../core/templates/page';
 import { changeVisibility } from '../../utils';
+import { GameToyPaletteComponent } from '../../core/components/game-palettes/game-toy-palette.component';
 
 const template = `
   <div class='left-side-menu'>
@@ -11,6 +12,10 @@ const template = `
     <lightrope-palette></lightrope-palette>
   </div>
   <view-tree></view-tree>
+  <div class="right-side-menu">
+    <toy-palette></toy-palette>
+    <usedTree-palette></usedTree-palette>
+  </div>
 `;
 
 class GamePage extends Page {
@@ -29,7 +34,9 @@ class GamePage extends Page {
     сontainer.innerHTML = template;
     сontainer.classList.add('game-container');
     rootNode.append(сontainer);
+
     this.setViewValue();
+    this. dragToys();
     const backPalette = document.querySelector('back-palette') as HTMLElement;
     const treePalette = document.querySelector('tree-palette') as HTMLElement;
     const lightropePalette = document.querySelector('lightrope-palette') as HTMLElement;
@@ -49,17 +56,19 @@ class GamePage extends Page {
     return this.container;
   }
 
-  private saveViewValuesToLocalstorage(value:string, name:string) {
+
+
+   private saveViewValuesToLocalstorage(value:string, name:string) {
     localStorage.setItem(name, JSON.stringify(value));
   }
 
-  public loadViewValuesFromLocalstorage(name:string): string|null {
+  private loadViewValuesFromLocalstorage(name:string): string|null {
     const viewValues = localStorage.getItem(name);
 
     return viewValues ? JSON.parse(viewValues):null
   }
 
-  public setViewValue(){
+  private setViewValue(){
    const viewTreeElement = document.querySelector('view-tree') as ViewTreeComponent;
     if(localStorage.background){
       const url = this.loadViewValuesFromLocalstorage('background') as string;
@@ -71,7 +80,37 @@ class GamePage extends Page {
       viewTreeElement.updateTree(url);
     }
   }
+    dragToys():void{
+    const toys = document.querySelectorAll('.game-toy-container img');
 
+
+    const tree = document.querySelector('.christmas-tree') as HTMLElement;
+
+    toys.forEach((toy)=> toy.addEventListener('dragstart', (evt) => {
+      toy.classList.add('selected');
+    }));
+    toys.forEach((toy)=> toy.addEventListener('dragend', (evt) => {
+      toy.classList.remove('selected');
+    }));
+
+    tree.addEventListener('dragover', (evt) => {
+      evt.preventDefault();
+      const activeElement = document.querySelector('.selected') as HTMLElement;
+      const currentElement = evt.target;
+       console.log(currentElement);
+      const isMoveable = activeElement !== currentElement && currentElement.classList.contains('.christmas-tree');
+
+    if (!isMoveable) {
+      return;
+    }
+
+    const nextElement = (currentElement === activeElement.nextElementSibling) ?
+        currentElement.nextElementSibling :
+        currentElement;
+
+
+    toys.insertBefore(activeElement, nextElement);
+  });
 }
-
+}
 export default GamePage;
