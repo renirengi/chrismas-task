@@ -1,4 +1,4 @@
-export interface Card {
+export interface ToyCardModel {
   num: number;
   name: string;
   count: number;

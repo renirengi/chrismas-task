@@ -1,54 +1,60 @@
-import { ConfigLightropeModel, LighropeModel } from '../../interfaces';
-import { lightropes } from './game-palettes-constants';
+import { LighropeModel } from '../../interfaces';
+//import { lightropes } from './game-palettes-constants';
 
 const lightropePaletteTemplate = `
   <div>
     <h3>Гирлянда</h3>
-    <ul class="lighropes-container">
-    </li>
+    <div class="lighropes-container">
+      <div id="multicolor" class="light-type"></div>
+      <div id="red" class="light-type"></div>
+      <div id="blue" class="light-type"></div>
+      <div id="yellow" class="light-type"></div>
+      <div id="green" class="light-type"></div>
+    </div>
     <div class="btn-container">
     <div class="switch-btn"></div>
   </div>
 `;
 
 export class LightropePaletteComponent extends HTMLElement {
-  private currentState: LighropeModel = {...lightropes[0], enabled: false };
+  private lightropeState:LighropeModel = {
+    color:'multicolor',
+    state: false};
 
   public connectedCallback(): void {
     this.innerHTML = lightropePaletteTemplate;
-    this.querySelector('.lighropes-container')?.append(...this.getLightropesList(lightropes));
-    this.querySelector('.switch-btn')?.addEventListener('click', (e: Event) => this.lightropeSwitchClickHandler(e));
+    this.querySelectorAll('.light-type').forEach((el)=> el.addEventListener('click', ()=> {
+      const colorname=el.id;
+       const rope=colorname?.toString();
+      if(rope!==undefined)
+      {this.lightropeClickHandler(`${rope}-light`)}
+    }));
+     this.querySelector('.switch-btn')?.addEventListener('click', () => this.lightropeSwitchClickHandler());
   }
 
-  private getLightropesList(ropes: ConfigLightropeModel[]): HTMLElement[] {
-    return ropes.map((rope) => {
-      const listElement = document.createElement('li') as HTMLElement;
-
-      listElement.style.background = rope.background || rope.colorName;
-      listElement.addEventListener('click', () => this.lightropeClickHandler(rope));
-
-      return listElement;
-    });
-  }
-
-  private lightropeClickHandler(rope: ConfigLightropeModel): void {
-    this.currentState = { ...this.currentState, ...rope };
-
+   private lightropeClickHandler(rope: string): void {
+    this.lightropeState.color=rope;
     this.emitEvent();
   }
 
-  private lightropeSwitchClickHandler(e: Event) {
-    const target = e.target as HTMLElement;
-
+  private lightropeSwitchClickHandler() {
+    const target=this.querySelector('.switch-btn') as HTMLElement;
     target.classList.toggle('switch-on');
-    this.currentState = { ...this.currentState, enabled: target.classList.contains('switch-on') };
-
-    this.emitEvent();
+    if(target.classList.contains('switch-on')){
+      this.lightropeState.state=true;
+      console.log(this.lightropeState);
+    }
+    else{
+      this.lightropeState.state=false;
+    }
+  this.emitEvent();
   }
 
   private emitEvent(): void {
-    const detail = { lightrope: this.currentState };
+    const detail = this.lightropeState;
 
     this.dispatchEvent(new CustomEvent('lightropeUpdated', { detail }));
   }
+
+
 }

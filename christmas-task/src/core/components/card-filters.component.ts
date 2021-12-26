@@ -10,14 +10,26 @@ import { cardFiltersTemplate } from './card-filters.component.template';
 import noUiSlider, { Options } from 'nouislider';
 
 export default class CardFiltersComponent extends HTMLElement {
-
   private readonly countSliderConfig = {
     start: [1, 12],
     snap: true,
     connect: true,
     behaviour: 'drag',
-    range: { min: 1, '9.1%': 2, '18.2%': 3, '27.3%': 4, '36.4%': 5, '45.5%': 6, '54.6%': 7, '63.7%': 8, '72.8%': 9, '81.9%': 10, '91%': 11, max: 12 },
-  }
+    range: {
+      min: 1,
+      '9.1%': 2,
+      '18.2%': 3,
+      '27.3%': 4,
+      '36.4%': 5,
+      '45.5%': 6,
+      '54.6%': 7,
+      '63.7%': 8,
+      '72.8%': 9,
+      '81.9%': 10,
+      '91%': 11,
+      max: 12,
+    },
+  };
 
   private readonly yearSliderConfig = {
     start: [1940, 2020],
@@ -82,7 +94,7 @@ export default class CardFiltersComponent extends HTMLElement {
 
   public initialize(storedFilterValues: Partial<AppliedFiltersModel> | null): void {
     if (storedFilterValues) {
-      this.filterValues = {...this.defaultFilterValues, ...storedFilterValues };
+      this.filterValues = { ...this.defaultFilterValues, ...storedFilterValues };
     } else {
       this.filterValues = this.defaultFilterValues;
     }
@@ -113,9 +125,9 @@ export default class CardFiltersComponent extends HTMLElement {
       const filterValues = value as string[];
 
       filterElement.noUiSlider.set(filterValues);
-    }
+    };
 
-    switch(key) {
+    switch (key) {
       case 'shape':
       case 'color':
       case 'size':
@@ -181,12 +193,14 @@ export default class CardFiltersComponent extends HTMLElement {
 
   private emitEvent() {
     const detail = { filterValues: this.filterValues };
-        this.dispatchEvent(new CustomEvent('filtersUpdated', { detail }));
+    this.dispatchEvent(new CustomEvent('filtersUpdated', { detail }));
   }
 
   private initSlider(selector: string, config: Options): HTMLElement & ElementNoUiSlider {
     const yearSlider = this.querySelector(selector) as HTMLElement;
-    const [minSpan, maxSpan] = Array.from(yearSlider.parentNode?.querySelectorAll('span') as NodeListOf<HTMLSpanElement>);
+    const [minSpan, maxSpan] = Array.from(
+      yearSlider.parentNode?.querySelectorAll('span') as NodeListOf<HTMLSpanElement>
+    );
     const updateLables = ([min, max]: string[]) => {
       minSpan.innerText = (+min).toString();
       maxSpan.innerText = (+max).toString();
@@ -202,8 +216,8 @@ export default class CardFiltersComponent extends HTMLElement {
   private resetToDefaultsHandler() {
     this.filterValues = this.defaultFilterValues;
     localStorage.removeItem('activeToysCount');
-    const ballToy=document.querySelector('.count-toys') as HTMLElement;
-    ballToy.innerHTML="0";
+    const ballToy = document.querySelector('.count-toys') as HTMLElement;
+    ballToy.innerHTML = '0';
     this.applyFiltersValues();
   }
 

@@ -1,4 +1,5 @@
-import { ConfigLightropeModel } from '../../interfaces';
+//import { ConfigLightropeModel } from '../../interfaces';
+export { toys } from '../../../toys';
 
 export const rootUrl = 'https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/';
 
@@ -24,10 +25,7 @@ export const backgrounds = [
   'assets/bg/10.jpg',
 ];
 
-export const lightropes: ConfigLightropeModel[] = [
-  { colorName: 'multi-color', background: 'linear-gradient(to right, orange , yellow, green, cyan, blue, violet)' },
-  { colorName: 'red' },
-  { colorName: 'blue' },
-  { colorName: 'yellow' },
-  { colorName: 'green' },
-];
+
+export const getToyImageUrl = (index: number | string) => {
+  return `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/toys/${+index + 1}.png`;
+};

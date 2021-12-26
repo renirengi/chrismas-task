@@ -1,11 +1,11 @@
-import { Card } from '../interfaces';
+import { ToyCardModel } from '../interfaces';
 
 export default class CardListComponent extends HTMLElement {
   public connectedCallback() {
     this.innerHTML = 'Загрузка...';
   }
 
-  public updateCardList(cards: Card[], activeToys: number[]): void {
+  public updateCardList(cards: ToyCardModel[], activeToys: number[]): void {
     console.log(cards);
     const toysContainer: HTMLElement = document.createElement('div');
     const cardElements = cards.map((card) => this.createCardElement(card, activeToys));
@@ -35,7 +35,7 @@ export default class CardListComponent extends HTMLElement {
     this.append(toysContainer);
   }
 
-  private createCardElement(card: Card, activeToys: number[] = []): HTMLElement {
+  private createCardElement(card: ToyCardModel, activeToys: number[] = []): HTMLElement {
     const { num, name, count, year, shape, color, size, favorite } = card;
     const isActiveToy = activeToys.includes(num);
     const imgIndex = 1 + num;

@@ -1,57 +1,59 @@
-import { create } from 'domain';
-import data from '../../../toys';
-const toyPaletteTemplate = `
-  <h3>Игрушки</h3>
+import { ToyModel } from '../../interfaces';
+import { toys } from './game-palettes-constants';
+import { ToyComponent } from './game-toy.component';
 
-`;
-interface ToysForGames{
-  num: number;
-  count: number|string;
-}
+const toyPaletteTemplate = `
+    <h3>Игрушки</h3>
+    <div class="game-toy-container"></div>
+  `;
 
 export class GameToyPaletteComponent extends HTMLElement {
+
+  private toyElements!: {[key: string]: ToyComponent};
+
   public connectedCallback(): void {
-    const toys:ToysForGames[] = this.loadToysForGames();
     this.innerHTML = toyPaletteTemplate;
-    const indexes = localStorage.activeToysCount? localStorage.activeToysCount :[...Array(20).keys()];
 
-    this.getToyList(toys,indexes);
-    }
+    const allToys: ToyModel[] = this.loadToysForGames();
+    const selectedToysIndexes: number[] = localStorage.activeToysCount
+      ? JSON.parse(localStorage.activeToysCount)
+      : [...Array(20).keys()];
+    const selectedToys = allToys.filter((toy) => selectedToysIndexes.includes(toy.num));
+    const toyElementsArray = selectedToys.map(this.createToysElement);
 
-  private getToyList(toys:ToysForGames[],indexes:number[]){
-    const toysContainer: HTMLElement = document.createElement('div');
-    const toysElements = toys.map((toy) => this.createToysElement(toy, indexes));
+    this.toyElements = toyElementsArray.reduce((acc, elem, i) => ({...acc, [(selectedToys[i].num).toString()]: elem}), {});
 
-    toysContainer.classList.add('game-toy-container');
+    this.querySelector('.game-toy-container')?.append(...toyElementsArray);
 
-    toysContainer.append(...toysElements);
-    this.append(toysContainer);
+    document.addEventListener('toyDropped', (e) => this.dropHandler(e as CustomEvent));
   }
 
-  private createToysElement(toy:ToysForGames, indexes:number[]):HTMLElement{
-     const { num, count } = toy;
-    if(indexes.includes(num)){
+  private createToysElement(toy: ToyModel): HTMLElement {
+    const { num, count } = toy;
+    const toyElement: HTMLElement = document.createElement('toy-component');
 
-      const toyElement: HTMLElement = document.createElement('div');
-     toyElement.classList.add('toy-picture-container');
-    const imgIndex = 1 + num;
-    const url = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/toys/${imgIndex}.png`;
-    const toyTemplate = `
-        <img src="${url}" alt="${num}"/>
-        <p class="countToys">${count}</p>
-       `;
-      toyElement.innerHTML = toyTemplate;
-      return toyElement;
-     }
-     else{
-       return document.createElement('div');
-     }
+    toyElement.setAttribute('index', num.toString());
+    toyElement.setAttribute('counter', count.toString());
+
+    return toyElement;
   }
 
-  private loadToysForGames():ToysForGames[] {
-    return data.map((item, index) => {
+  private loadToysForGames(): ToyModel[] {
+    return toys.map((item, index) => {
       const { count } = item;
-     return { num: index, count: +count};
+      return { num: index, count: +count };
     });
   }
+
+  private dropHandler(e: CustomEvent): void {
+    const index = e.detail.index as number;
+    const toyElement = this.toyElements[index.toString()];
+    const counter = +(toyElement.getAttribute('counter') as string);
+
+    console.log(index, toyElement, counter)
+
+    if (counter > 0) {
+      toyElement.setAttribute('counter', (counter - 1).toString());
+    }
+}
 }

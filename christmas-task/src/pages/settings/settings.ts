@@ -1,18 +1,12 @@
-import {
-  AppliedFiltersModel,
-  Card,
-  FilterNames,
-  AppliedFilterValues,
-  SortFilterValues,
-} from '../../core/interfaces';
+import { AppliedFiltersModel, ToyCardModel, FilterNames, AppliedFilterValues, SortFilterValues } from '../../core/interfaces';
 import { changeVisibility, isNil, removeContainer } from '../../utils';
 import CardFiltersComponent from '../../core/components/card-filters.component';
 import CardListComponent from '../../core/components/card-list.component';
-import data from '../../toys';
+import { toys } from '../../toys';
 import Page from '../../core/templates/page';
 
 class SettingsPage extends Page {
-  private cards: Card[] = [];
+  private cards: ToyCardModel[] = [];
   private activeCards: number[] = [];
   private filtersElement!: CardFiltersComponent;
   private listElement!: CardListComponent;
@@ -58,14 +52,14 @@ class SettingsPage extends Page {
 
   private filtersUpdateHandler(filterValues: Partial<AppliedFiltersModel>): void {
     const comparators = {
-      [SortFilterValues.az]: (a: Card, b: Card) => a.name.localeCompare(b.name),
-      [SortFilterValues.za]: (a: Card, b: Card) => b.name.localeCompare(a.name),
-      [SortFilterValues.max]: (a: Card, b: Card) => a.count - b.count,
-      [SortFilterValues.min]: (a: Card, b: Card) => b.count - a.count,
+      [SortFilterValues.az]: (a: ToyCardModel, b: ToyCardModel) => a.name.localeCompare(b.name),
+      [SortFilterValues.za]: (a: ToyCardModel, b: ToyCardModel) => b.name.localeCompare(a.name),
+      [SortFilterValues.max]: (a: ToyCardModel, b: ToyCardModel) => a.count - b.count,
+      [SortFilterValues.min]: (a: ToyCardModel, b: ToyCardModel) => b.count - a.count,
     };
     const sortComparator = comparators[filterValues.sort || SortFilterValues.az];
 
-    const filteredCards = this.cards.filter((card: Card) => this.filterCard(card, filterValues));
+    const filteredCards = this.cards.filter((card: ToyCardModel) => this.filterCard(card, filterValues));
     const sortedCards = filteredCards.sort(sortComparator);
 
     this.listElement.updateCardList(sortedCards, this.activeCards);
@@ -92,7 +86,7 @@ class SettingsPage extends Page {
     this.activeToys.innerHTML = number.toString();
   }
 
-  private filterCard(card: Card, appliedFilters: Partial<AppliedFiltersModel>): boolean {
+  private filterCard(card: ToyCardModel, appliedFilters: Partial<AppliedFiltersModel>): boolean {
     const predicate = ([filterName, filterValue]: [FilterNames, AppliedFilterValues]): boolean => {
       const cardValue = card[filterName];
 
@@ -126,8 +120,8 @@ class SettingsPage extends Page {
     return Object.entries(appliedFilters).every(predicate);
   }
 
-  private loadCards(): Card[] {
-    return data.map((item, index) => {
+  private loadCards(): ToyCardModel[] {
+    return toys.map((item, index) => {
       const { name, count, year, shape, color, size, favorite } = item;
 
       return { num: index, name, count: +count, year: +year, shape, color, size, favorite };

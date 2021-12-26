@@ -1,11 +1,13 @@
+import { ToyCardModel } from ".";
+
 export interface LighropeModel {
-  colorName: string;
-  background?: string;
-  animation?: () => void;
-  enabled: boolean;
+  color: string;
+  state: boolean;
 }
 
-export type ConfigLightropeModel = Pick<LighropeModel, 'colorName' | 'animation' | 'background'>;
+export type ToyModel = Pick<ToyCardModel, 'num' | 'count'>;
+
+//export type ConfigLightropeModel = Pick<LighropeModel, 'colorName'>;
 
 export interface TreeImageElements {
   tree: string[];

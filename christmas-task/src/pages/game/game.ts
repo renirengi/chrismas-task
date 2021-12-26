@@ -1,8 +1,10 @@
 import { backgrounds } from '../../core/components/game-palettes/game-palettes-constants';
 import { ViewTreeComponent } from '../../core/components/view-tree.component';
 import Page from '../../core/templates/page';
-import { changeVisibility } from '../../utils';
+import {  changeVisibility, changeSnow } from '../../utils';
 import { GameToyPaletteComponent } from '../../core/components/game-palettes/game-toy-palette.component';
+import { checkPrime } from 'crypto';
+import { LighropeModel } from '../../core/interfaces';
 
 const template = `
   <div class='left-side-menu'>
@@ -19,15 +21,12 @@ const template = `
 `;
 
 class GamePage extends Page {
-
-
   constructor(id: string) {
     super(id);
   }
 
   render() {
     changeVisibility('ЁЛОЧКА');
-
     const rootNode = document.querySelector('.main-container') as HTMLElement;
     const сontainer: HTMLElement = document.createElement('div');
 
@@ -36,81 +35,60 @@ class GamePage extends Page {
     rootNode.append(сontainer);
 
     this.setViewValue();
-    this. dragToys();
     const backPalette = document.querySelector('back-palette') as HTMLElement;
     const treePalette = document.querySelector('tree-palette') as HTMLElement;
     const lightropePalette = document.querySelector('lightrope-palette') as HTMLElement;
     const viewTreeElement = document.querySelector('view-tree') as ViewTreeComponent;
 
     backPalette.addEventListener('backUpdated', (e: any) => {
-     viewTreeElement.updateBackground(e.detail.url)
-      this.saveViewValuesToLocalstorage(e.detail.url,'background');
+      viewTreeElement.updateBackground(e.detail.url);
+      this.saveViewValuesToLocalstorage(e.detail.url, 'background');
     });
 
     treePalette.addEventListener('treeUpdated', (e: any) => {
-     viewTreeElement.updateTree(e.detail.url)
-      this.saveViewValuesToLocalstorage(e.detail.url,'tree');
+      viewTreeElement.updateTree(e.detail.url);
+      this.saveViewValuesToLocalstorage(e.detail.url, 'tree');
     });
 
+    lightropePalette.addEventListener('lightropeUpdated', (e: any) => {
+      viewTreeElement.updateLightrope(e.detail);
+      this.saveViewValuesToLocalstorage(e.detail, 'rope');
+    });
 
+    changeSnow(viewTreeElement);
     return this.container;
   }
 
 
-
-   private saveViewValuesToLocalstorage(value:string, name:string) {
+  private saveViewValuesToLocalstorage(value: string|LighropeModel, name: string) {
     localStorage.setItem(name, JSON.stringify(value));
   }
 
-  private loadViewValuesFromLocalstorage(name:string): string|null {
+  private loadViewValuesFromLocalstorage(name: string): string | null | LighropeModel {
     const viewValues = localStorage.getItem(name);
 
-    return viewValues ? JSON.parse(viewValues):null
+    return viewValues ? JSON.parse(viewValues) : null;
   }
 
-  private setViewValue(){
-   const viewTreeElement = document.querySelector('view-tree') as ViewTreeComponent;
-    if(localStorage.background){
+  private setViewValue() {
+    const viewTreeElement = document.querySelector('view-tree') as ViewTreeComponent;
+    if (localStorage.background) {
       const url = this.loadViewValuesFromLocalstorage('background') as string;
       viewTreeElement.updateBackground(url);
     }
 
-    if(localStorage.tree){
+    if (localStorage.tree) {
       const url = this.loadViewValuesFromLocalstorage('tree') as string;
       viewTreeElement.updateTree(url);
     }
-  }
-    dragToys():void{
-    const toys = document.querySelectorAll('.game-toy-container img');
 
-
-    const tree = document.querySelector('.christmas-tree') as HTMLElement;
-
-    toys.forEach((toy)=> toy.addEventListener('dragstart', (evt) => {
-      toy.classList.add('selected');
-    }));
-    toys.forEach((toy)=> toy.addEventListener('dragend', (evt) => {
-      toy.classList.remove('selected');
-    }));
-
-    tree.addEventListener('dragover', (evt) => {
-      evt.preventDefault();
-      const activeElement = document.querySelector('.selected') as HTMLElement;
-      const currentElement = evt.target;
-       console.log(currentElement);
-      const isMoveable = activeElement !== currentElement && currentElement.classList.contains('.christmas-tree');
-
-    if (!isMoveable) {
-      return;
+    if (localStorage.rope) {
+      const object = this.loadViewValuesFromLocalstorage('rope') as LighropeModel;
+      viewTreeElement.updateLightrope(object);
     }
+  }
 
-    const nextElement = (currentElement === activeElement.nextElementSibling) ?
-        currentElement.nextElementSibling :
-        currentElement;
-
-
-    toys.insertBefore(activeElement, nextElement);
-  });
-}
 }
 export default GamePage;
+
+
