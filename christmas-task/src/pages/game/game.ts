@@ -51,6 +51,8 @@ class GamePage extends Page {
       viewTreeElement.updateTree('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.png');
       this.saveViewValuesToLocalstorage('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.png', 'tree');
 
+      viewTreeElement.updateLightrope({color: 'multicolor-light', state: false});
+      this.saveViewValuesToLocalstorage({color: 'multicolor-light', state: false}, 'rope');
     })
 
     backPalette.addEventListener('backUpdated', (e:any) => {
@@ -65,7 +67,6 @@ class GamePage extends Page {
 
     lightropePalette.addEventListener('lightropeUpdated', (e: any) => {
       viewTreeElement.updateLightrope(e.detail);
-      console.log(e.detail);
       this.saveViewValuesToLocalstorage(e.detail, 'rope');
     });
 

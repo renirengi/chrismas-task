@@ -283,7 +283,8 @@ h1 {
 .size button:hover,
 .delete:hover,
 .music-button:hover,
-.snow-button:hover {
+.snow-button:hover,
+.snow-game-button:hover {
   opacity: 1;
 }
 
@@ -564,7 +565,8 @@ h5 {
   width: 100%;
   height: auto;
   color: white;
-  flex-wrap: wrap-reverse;
+
+  justify-content: space-between;
 
 }
 
@@ -587,7 +589,7 @@ h3 {
 
 .left-side-menu,
 .right-side-menu{
-  margin: 2%;
+  margin: 1%;
   border: 2px solid #3fbfaf;
   border-radius: 30px;
   background-color: black;
@@ -600,6 +602,7 @@ h3 {
   justify-content: space-around;
   align-items: center;
   width: 90%;
+  flex-wrap:wrap;
 }
 
 .trees,
@@ -924,4 +927,5 @@ toy-component.dragged .counter {
   width: 50%;
   background-image: url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg');
   color: white;
+  border-radius: 30px;
 }

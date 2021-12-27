@@ -49,7 +49,7 @@ export class ToyComponent extends HTMLElement {
     if (counter > 0) {
       this.setAttribute('draggable', 'true');
     } else {
-      console.log(this);
+      this.style.background = 'none';
       this.removeAttribute('draggable');
     }
   }
