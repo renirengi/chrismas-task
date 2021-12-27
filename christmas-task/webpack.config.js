@@ -1,7 +1,8 @@
-const path = require('path');
-const { merge } = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { merge } = require('webpack-merge');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 const baseConfig = {
   entry: path.resolve(__dirname, './src/index.ts'),
@@ -12,7 +13,7 @@ const baseConfig = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
-      { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource' },
+      { test: /\.(?:ico|gif|png|jpg|jpeg|mp3)$/i, type: 'asset/resource' },
       // Fonts and SVGs: Inline files
       { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' },
 
@@ -25,19 +26,21 @@ const baseConfig = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
-      {test: /\.mp3$/,
+      {
+        test: /\.mp3$/,
         use: {
-       loader: 'file-loader',
+          loader: 'file-loader',
+        },
       },
-      }
     ],
   },
   resolve: {
     extensions: ['.ts', '.js', '.json'],
   },
   output: {
-    filename: 'index.js',
     path: path.resolve(__dirname, './dist'),
+    filename: '[name].bundle.js',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -45,6 +48,18 @@ const baseConfig = {
       filename: 'index.html',
     }),
     new CleanWebpackPlugin(),
+
+    // Copies files from target to destination folder
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, './src/assets'),
+          to: '',
+          globOptions: {ignore: ['*.DS_Store'],},
+          noErrorOnMissing: true,
+        },
+      ],
+    }),
   ],
 };
 

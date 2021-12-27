@@ -47,7 +47,8 @@ class Header extends Component {
     const svgElementContainer: HTMLElement = document.createElement('div');
     svgElementContainer.classList.add('svg-element-container');
     const createSvgElementTemplate = `
-    <button class="music-button"></button>
+    <button id="music-button" class="music-button"></button>
+    <audio  class="listen" class="listen" src="assets_audio_audio.mp3" autoplay="muted"></audio></audio>
     <button class="snow-button"></button>
     `;
     svgElementContainer.innerHTML = createSvgElementTemplate;

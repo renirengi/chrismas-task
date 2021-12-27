@@ -1,16 +1,12 @@
-import { backgrounds } from '../../core/components/game-palettes/game-palettes-constants';
 import { ViewTreeComponent } from '../../core/components/view-tree.component';
 import Page from '../../core/templates/page';
-import {  changeVisibility, changeSnowGame } from '../../utils';
-import { GameToyPaletteComponent } from '../../core/components/game-palettes/game-toy-palette.component';
-import { checkPrime } from 'crypto';
+import { changeVisibility, changeSnowGame } from '../../utils';
 import { LighropeModel } from '../../core/interfaces';
 
 const template = `
   <div class='left-side-menu'>
-    <div class="snow-svg-buttons"><button class="music-button"><button class="reset-game">Сброс настроек</button></button><button class="snow-game-button"></button></div>
-    <audio src="../../assets_audio_audio (1).mp3" autoplay="autoplay"></audio></audio>
-    <tree-palette></tree-palette>
+    <div class="snow-svg-buttons"><button class="reset-game">Сброс настроек</button></button><button class="snow-game-button"></button></div>
+      <tree-palette></tree-palette>
     <back-palette></back-palette>
     <lightrope-palette></lightrope-palette>
   </div>
@@ -40,22 +36,32 @@ class GamePage extends Page {
     const treePalette = document.querySelector('tree-palette') as HTMLElement;
     const lightropePalette = document.querySelector('lightrope-palette') as HTMLElement;
     const viewTreeElement = document.querySelector('view-tree') as ViewTreeComponent;
-    const music = document.querySelector('.music-button') as HTMLElement;
+
     const reset = document.querySelector('.reset-game') as HTMLElement;
 
-    reset.addEventListener('click', () =>{
+    reset.addEventListener('click', () => {
       localStorage.clear();
-      viewTreeElement.updateBackground('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg/1.jpg');
-      this.saveViewValuesToLocalstorage('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg/1.jpg', 'background');
+      viewTreeElement.updateBackground(
+        'https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg/1.jpg'
+      );
+      this.saveViewValuesToLocalstorage(
+        'https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg/1.jpg',
+        'background'
+      );
 
-      viewTreeElement.updateTree('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.png');
-      this.saveViewValuesToLocalstorage('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.png', 'tree');
+      viewTreeElement.updateTree(
+        'https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.png'
+      );
+      this.saveViewValuesToLocalstorage(
+        'https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.png',
+        'tree'
+      );
 
-      viewTreeElement.updateLightrope({color: 'multicolor-light', state: false});
-      this.saveViewValuesToLocalstorage({color: 'multicolor-light', state: false}, 'rope');
-    })
+      viewTreeElement.updateLightrope({ color: 'multicolor-light', state: false });
+      this.saveViewValuesToLocalstorage({ color: 'multicolor-light', state: false }, 'rope');
+    });
 
-    backPalette.addEventListener('backUpdated', (e:any) => {
+    backPalette.addEventListener('backUpdated', (e: any) => {
       viewTreeElement.updateBackground(e.detail.url);
       this.saveViewValuesToLocalstorage(e.detail.url, 'background');
     });
@@ -70,20 +76,13 @@ class GamePage extends Page {
       this.saveViewValuesToLocalstorage(e.detail, 'rope');
     });
 
-    music.addEventListener('click', ()=>this.addMusic());
 
     changeSnowGame(rootNode);
     return this.container;
   }
 
-  addMusic():void{
-    const audio = new Audio(); // Создаём новый элемент Audio
-  audio.src = '../../assets_audio_audio (1).mp3'; // Указываем путь к звуку "клика"
-  audio.autoplay = true;
-  }
 
-
-  private saveViewValuesToLocalstorage(value: string|LighropeModel, name: string) {
+  private saveViewValuesToLocalstorage(value: string | LighropeModel, name: string) {
     localStorage.setItem(name, JSON.stringify(value));
   }
 
@@ -110,8 +109,5 @@ class GamePage extends Page {
       viewTreeElement.updateLightrope(object);
     }
   }
-
 }
 export default GamePage;
-
-

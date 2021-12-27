@@ -595,6 +595,7 @@ h3 {
   background-color: black;
 }
 
+
 .snow-svg-buttons {
   margin: 3%;
   height: 7vh;
@@ -621,6 +622,7 @@ h3 {
   flex-direction: row;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .trees-container,
@@ -765,62 +767,6 @@ h3 {
   z-index: 400;
 }
 
-@media (max-width: 1000px) {
-  header,
-  footer {
-    height: 20vh;
-  }
-
-  h1 {
-    font-size: 5vh;
-    margin: 0 10%;
-  }
-
-  .main-title {
-    width: 25vw;
-  }
-
-.left-side-menu,
-.right-side-menu{
-  width: 25vw;
-}
-}
-
-@media (max-width: 900px) {
-  .title-container {
-    top: 20vh;
-  }
-
-  .main-title {
-    width: 35vw;
-  }
-}
-
-@media (max-width: 800px) {
-  .main-title {
-    width: 35vw;
-  }
-}
-
-@media (max-width: 700px) {
-  .main-title {
-    width: 35vw;
-  }
-}
-
-@media (max-width: 600px) {
-  .main-title {
-    width: 35vw;
-    font-size: 2vh;
-  }
-}
-
-@media (max-width: 300px) {
-  .main-title {
-    width: 35vw;
-    font-size: 25px;
-  }
-}
 
 view-tree {
   background-repeat: no-repeat;
@@ -924,8 +870,91 @@ toy-component.dragged .counter {
 }
 
 .reset-game{
-  width: 50%;
+  width: 80%;
   background-image: url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg');
   color: white;
   border-radius: 30px;
+  }
+
+.toys-title{
+  padding-left: 40%;
+}
+
+@media (max-width: 1000px) {
+  header,
+  footer {
+    height: 20vh;
+  }
+
+  .reset-game{
+    font-size: 18px;
+
+  }
+
+  h1 {
+    font-size: 5vh;
+    margin: 0 10%;
+  }
+
+  .main-title {
+    width: 25vw;
+  }
+
+.left-side-menu,
+.right-side-menu{
+  width: 25vw;
+}
+toy-component{
+  width:50px;
+  height: 60px;
+}
+
+h3{
+  margin: 10% 0;
+  font-size: 20px;
+}
+
+.trees-container img {
+  width: 80px;
+}
+}
+
+@media (max-width: 900px) {
+  .title-container {
+    top: 20vh;
+  }
+
+  .main-title {
+    width: 35vw;
+  }
+}
+
+@media (max-width: 800px) {
+  .main-title {
+    width: 35vw;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-title {
+    width: 35vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-title {
+    width: 35vw;
+    font-size: 2vh;
+  }
+}
+
+@media (max-width: 300px) {
+  .main-title {
+    width: 35vw;
+    font-size: 25px;
+  }
+}
+
+toy-palette h3{
+  padding-left: 40%;
 }
