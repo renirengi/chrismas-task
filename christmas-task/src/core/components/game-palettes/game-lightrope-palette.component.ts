@@ -2,7 +2,7 @@ import { LighropeModel } from '../../interfaces';
 //import { lightropes } from './game-palettes-constants';
 
 const lightropePaletteTemplate = `
-  <div>
+  <div class="lights">
     <h3>Гирлянда</h3>
     <div class="lighropes-container">
       <div id="multicolor" class="light-type"></div>

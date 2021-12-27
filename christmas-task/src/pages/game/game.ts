@@ -8,7 +8,7 @@ import { LighropeModel } from '../../core/interfaces';
 
 const template = `
   <div class='left-side-menu'>
-    <div class="snow-svg-buttons"><button class="music-button"></button><button class="snow-game-button"></button></div>
+    <div class="snow-svg-buttons"><button class="music-button"><button class="reset-game">Сброс настроек</button></button><button class="snow-game-button"></button></div>
     <audio src="../../assets_audio_audio (1).mp3" autoplay="autoplay"></audio></audio>
     <tree-palette></tree-palette>
     <back-palette></back-palette>
@@ -40,7 +40,18 @@ class GamePage extends Page {
     const treePalette = document.querySelector('tree-palette') as HTMLElement;
     const lightropePalette = document.querySelector('lightrope-palette') as HTMLElement;
     const viewTreeElement = document.querySelector('view-tree') as ViewTreeComponent;
+    const music = document.querySelector('.music-button') as HTMLElement;
+    const reset = document.querySelector('.reset-game') as HTMLElement;
 
+    reset.addEventListener('click', () =>{
+      localStorage.clear();
+      viewTreeElement.updateBackground('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg/1.jpg');
+      this.saveViewValuesToLocalstorage('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg/1.jpg', 'background');
+
+      viewTreeElement.updateTree('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.jpng');
+      this.saveViewValuesToLocalstorage('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.jpg', 'tree');
+
+    })
 
     backPalette.addEventListener('backUpdated', (e:any) => {
       viewTreeElement.updateBackground(e.detail.url);
@@ -54,11 +65,20 @@ class GamePage extends Page {
 
     lightropePalette.addEventListener('lightropeUpdated', (e: any) => {
       viewTreeElement.updateLightrope(e.detail);
+      console.log(e.detail);
       this.saveViewValuesToLocalstorage(e.detail, 'rope');
     });
 
+    music.addEventListener('click', ()=>this.addMusic());
+
     changeSnowGame(rootNode);
     return this.container;
+  }
+
+  addMusic():void{
+    const audio = new Audio(); // Создаём новый элемент Audio
+  audio.src = '../../assets_audio_audio (1).mp3'; // Указываем путь к звуку "клика"
+  audio.autoplay = true;
   }
 
 
