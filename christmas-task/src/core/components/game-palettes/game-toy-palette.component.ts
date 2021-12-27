@@ -50,10 +50,11 @@ export class GameToyPaletteComponent extends HTMLElement {
     const toyElement = this.toyElements[index.toString()];
     const counter = +(toyElement.getAttribute('counter') as string);
 
-    console.log(index, toyElement, counter)
 
     if (counter > 0) {
       toyElement.setAttribute('counter', (counter - 1).toString());
     }
+
+
 }
 }

@@ -6,6 +6,8 @@
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
+  top:0;
+  left: 15px;
   position: absolute;
   z-index: 1;
   margin: 20px 0 0 0;
@@ -90,9 +92,8 @@
 .yellow-light li:before {
   content: '';
   position: absolute;
-  background: #222;
   width: 2px;
-  height: 9.33333px;
+  height: 9px;
   border-radius: 1px;
   top: -4.66667px;
   left: 1px;

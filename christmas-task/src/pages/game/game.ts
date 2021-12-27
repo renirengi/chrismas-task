@@ -1,14 +1,15 @@
 import { backgrounds } from '../../core/components/game-palettes/game-palettes-constants';
 import { ViewTreeComponent } from '../../core/components/view-tree.component';
 import Page from '../../core/templates/page';
-import {  changeVisibility, changeSnow } from '../../utils';
+import {  changeVisibility, changeSnowGame } from '../../utils';
 import { GameToyPaletteComponent } from '../../core/components/game-palettes/game-toy-palette.component';
 import { checkPrime } from 'crypto';
 import { LighropeModel } from '../../core/interfaces';
 
 const template = `
   <div class='left-side-menu'>
-    <div class="snow-svg-buttons"><button class="music-button"></button><button class="snow-button"></button></div>
+    <div class="snow-svg-buttons"><button class="music-button"></button><button class="snow-game-button"></button></div>
+    <audio src="../../assets_audio_audio (1).mp3" autoplay="autoplay"></audio></audio>
     <tree-palette></tree-palette>
     <back-palette></back-palette>
     <lightrope-palette></lightrope-palette>
@@ -40,7 +41,8 @@ class GamePage extends Page {
     const lightropePalette = document.querySelector('lightrope-palette') as HTMLElement;
     const viewTreeElement = document.querySelector('view-tree') as ViewTreeComponent;
 
-    backPalette.addEventListener('backUpdated', (e: any) => {
+
+    backPalette.addEventListener('backUpdated', (e:any) => {
       viewTreeElement.updateBackground(e.detail.url);
       this.saveViewValuesToLocalstorage(e.detail.url, 'background');
     });
@@ -55,7 +57,7 @@ class GamePage extends Page {
       this.saveViewValuesToLocalstorage(e.detail, 'rope');
     });
 
-    changeSnow(viewTreeElement);
+    changeSnowGame(rootNode);
     return this.container;
   }
 

@@ -118,7 +118,8 @@ footer {
   background-image: url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/audio.svg');
 }
 
-.snow-button {
+.snow-button,
+.snow-game-button {
   background-image: url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/d3cbbbeb3207b1a90bdb2c1ba5bb27a6492744f5/assets/svg/snow.svg');
 }
 
@@ -137,7 +138,8 @@ main {
   background-size: cover;
 }
 
-.snow1 {
+.snow1,
+.snow3 {
   background-image: url('https://webtort.ru/wp-content/uploads/2019/12/snow1.png');
   position: absolute;
   width: 100%;
@@ -145,7 +147,8 @@ main {
   animation: snow1 18s linear infinite;
 }
 
-.snow2 {
+.snow2,
+.snow4 {
   background-image: url('https://webtort.ru/wp-content/uploads/2019/12/snow2.png'),
     url('https://webtort.ru/wp-content/uploads/2019/12/snow3.png');
   animation: snow2 10s linear infinite;
@@ -259,7 +262,8 @@ h1 {
 
 .shape button,
 .music-button,
-.snow-button {
+.snow-button,
+.snow-game-button {
   width: 32px;
   height: 32px;
   background-size: 32px 32px;
@@ -817,9 +821,8 @@ view-tree.drag-over {
   background-size: contain;
   height: 80vh;
   position: relative;
-  width:500px;
+  width:512px;
   margin: 0 auto;
-
 }
 
 .christmas-tree img {
@@ -829,16 +832,13 @@ view-tree.drag-over {
   position: relative;
   width:515px;
   margin: 0 auto;
-
 }
 
 area {
   top:0;
-
   z-index: 150;
   cursor: pointer;
   position: absolute;
-
 }
 
 .christmas-tree .toy {

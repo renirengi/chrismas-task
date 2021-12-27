@@ -22,31 +22,61 @@ export function removeContainer(container:HTMLElement){
 export function changeSnow(container:HTMLElement){
   const snowButton = document.querySelector('.snow-button') as HTMLElement;
   snowButton.addEventListener("click", () => {
-    if(snowButton.classList.contains('snowflake')){
+    if(snowButton.classList.contains('snowflakeice')){
       removeSnow();
+      snowButton.classList.remove('snowflakeice')
+    }
+    else{
+      makeSnow(container, 'snow3');
+      makeSnow(container, 'snow4');
+      snowButton.classList.add('snowflakeice')
+    }
+  });
+}
+function makeSnow(container:HTMLElement,className:string){
+    const snow = document.createElement('div');
+    snow.classList.add(className);
+    container.prepend(snow);
+  }
+  function removeSnow(){
+    const item1= document.querySelector('.snow3') as HTMLElement;
+    const item2= document.querySelector('.snow4') as HTMLElement;
+    item1.parentNode?.removeChild(item1);
+    item2.parentNode?.removeChild(item2);
+   }
+
+
+export function changeSnowGame(container:HTMLElement){
+  const snowButton = document.querySelector('.snow-game-button') as HTMLElement;
+  snowButton.addEventListener("click", () => {
+    if(snowButton.classList.contains('snowflake')){
+      removeSnowGame();
       snowButton.classList.remove('snowflake')
     }
     else{
-      makeSnow(container, 'snow1');
-      makeSnow(container, 'snow2');
+      makeSnowGame(container, 'snow1');
+      makeSnowGame(container, 'snow2');
       snowButton.classList.add('snowflake')
 
     }
   });
 }
 
-function makeSnow(container:HTMLElement,className:string){
+function makeSnowGame(container:HTMLElement,className:string){
   const snow = document.createElement('div');
   snow.classList.add(className);
   container.prepend(snow);
 }
 
-function removeSnow(){
+
+function removeSnowGame(){
  const item1= document.querySelector('.snow1') as HTMLElement;
  const item2= document.querySelector('.snow2') as HTMLElement;
  item1.parentNode?.removeChild(item1);
  item2.parentNode?.removeChild(item2);
 }
+
+
 
 
 
