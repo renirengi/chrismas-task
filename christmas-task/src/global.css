@@ -435,7 +435,8 @@ h1 {
   font-size: 20px;
 }
 
-.reset {
+.reset,
+.reset-game {
   height: 8vh;
   width: 90%;
   outline: 0;
@@ -448,8 +449,10 @@ h1 {
   font-size: 20px;
 }
 
-.reset:hover {
+.reset:hover,
+.reset-game:hover {
   background-color: #9d8665;
+  transform: scale(1.1);
 }
 
 .sort {
@@ -561,7 +564,8 @@ h5 {
   width: 100%;
   height: auto;
   color: white;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
+
 }
 
 h3 {
@@ -578,15 +582,20 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 35vw;
-}
-
-.left-side-menu{
   width: 30vw;
 }
 
+.left-side-menu,
+.right-side-menu{
+  margin: 2%;
+  border: 2px solid #3fbfaf;
+  border-radius: 30px;
+  background-color: black;
+}
+
 .snow-svg-buttons {
-  height: 10vh;
+  margin: 3%;
+  height: 7vh;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -595,14 +604,20 @@ h3 {
 
 .trees,
 .backgrounds,
-.lighrope-container,
+.lights,
 .game-toy-container {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   flex-wrap: wrap;
   width: 90%;
-  margin: 5%;
+  margin: 3%;
+}
+
+.lighropes-container{
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
 }
 
 .trees-container,
@@ -621,7 +636,8 @@ h3 {
   margin: 2%;
   border: 2px solid #3fbfaf;
   border-radius: 30px;
-  background-color: black;
+  position: relative;
+  background-image: url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg');
 }
 
 .backgrounds-container img {
@@ -701,13 +717,13 @@ h3 {
 }
 .switch-btn::after {
   content: '';
-  height: 32px; /* высота кнопки */
-  width: 32px; /* ширина кнопки */
+  height: 32px;
+  width: 32px;
   border-radius: 17px;
-  background: #fff; /* цвет кнопки */
-  top: 3px; /* положение кнопки по вертикали относительно основы */
-  left: 3px; /* положение кнопки по горизонтали относительно основы */
-  transition-duration: 300ms; /* анимация */
+  background: #fff;
+  top: 3px;
+  left: 3px;
+  transition-duration: 300ms;
   position: absolute;
   z-index: 1;
 }
@@ -760,6 +776,11 @@ h3 {
   .main-title {
     width: 25vw;
   }
+
+.left-side-menu,
+.right-side-menu{
+  width: 25vw;
+}
 }
 
 @media (max-width: 900px) {
@@ -805,9 +826,10 @@ view-tree {
   border: 3px solid #3fbfaf;
   display: flex;
   align-items: flex-end;
-  height: 90vh;
+  height: 100vh;
   margin: 5% 1%;
   width: 750px;
+  flex-wrap: wrap;
 }
 
 view-tree.drag-over {
@@ -819,7 +841,7 @@ view-tree.drag-over {
   position:relative;
   background-repeat: no-repeat;
   background-size: contain;
-  height: 80vh;
+  height: 720px;
   position: relative;
   width:512px;
   margin: 0 auto;
@@ -828,7 +850,7 @@ view-tree.drag-over {
 .christmas-tree img {
   background-repeat: no-repeat;
   background-size: contain;
-  height: 80vh;
+  height: 720px;
   position: relative;
   width:515px;
   margin: 0 auto;
@@ -859,13 +881,13 @@ toy-component {
   background-size: contain;
   border-radius: 10px;
   border: 2px solid #3fbfaf;
-  display: block;
-  height: 60px;
+  display: flex;
+  height: 100px;
   margin: 2%;
   overflow: hidden;
   position: absolute;
   position: relative;
-  width: 50px;
+  width: 90px;
   z-index: 1000;
 }
 
@@ -896,4 +918,10 @@ toy-component.dragged .counter {
 
 .selected {
   opacity: 0.6;
+}
+
+.reset-game{
+  width: 50%;
+  background-image: url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg.jpg');
+  color: white;
 }
