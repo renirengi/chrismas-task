@@ -48,7 +48,7 @@ class GamePage extends Page {
       viewTreeElement.updateBackground('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg/1.jpg');
       this.saveViewValuesToLocalstorage('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/bg/1.jpg', 'background');
 
-      viewTreeElement.updateTree('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.jpng');
+      viewTreeElement.updateTree('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.png');
       this.saveViewValuesToLocalstorage('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/christmas-task/assets/tree/1.png', 'tree');
 
     })
