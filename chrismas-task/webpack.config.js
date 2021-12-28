@@ -39,8 +39,7 @@ const baseConfig = {
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: '[name].bundle.js',
-    publicPath: '/',
+
   },
   plugins: [
     new HtmlWebpackPlugin({
